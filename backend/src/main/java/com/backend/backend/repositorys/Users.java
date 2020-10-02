@@ -7,7 +7,7 @@ import java.io.Serializable;
 @Entity
 public class Users implements Serializable {
   
-    public enum Roles{Admin,DrRecidence,VicDecanoDeExtencion,Intructura,Professor,Student,};
+    public enum Roles{Administrador,DrRecidence,VicDecExtencion,Intructura,Profesor,Estudiante,};
      
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

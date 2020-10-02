@@ -5,33 +5,8 @@
             "name": "CodeLens (Launch) - BackendApplication",
             "request": "launch",
             "mainClass": "com.backend.backend.BackendApplication",
-            "projectName": "backend"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - BackendApplication",
-            "request": "launch",
-            "mainClass": "BackendApplication",
-            "projectName": "backend"
-        },
-        {
-            "type": "java",
-            "name": "Spring Boot-BanckendApplication<banckend>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
+            "projectName": "backend",
             "console": "internalConsole",
-            "mainClass": "com.backend.banckend.BanckendApplication",
-            "projectName": "banckend",
-            "args": ""
-        },
-        {
-            "type": "java",
-            "name": "Spring Boot-MavenWrapperDownloader",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
-            "mainClass": "MavenWrapperDownloader",
-            "args": ""
         }
     ]
 }

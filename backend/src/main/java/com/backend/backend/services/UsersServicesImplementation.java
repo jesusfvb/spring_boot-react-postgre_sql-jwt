@@ -7,7 +7,6 @@ import com.backend.backend.controls.exceptions.UserException;
 import com.backend.backend.repositorys.Users;
 import com.backend.backend.repositorys.UsersImplementation;
 
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

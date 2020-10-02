@@ -1,49 +1,39 @@
 import React from 'react'
-import { Table } from 'react-bootstrap'
+import { Button, Form, Table } from 'react-bootstrap'
 
-const UsersTable = () => {
-
+const UsersTable = ({ datos = [], onDelete }) => {
+    function selectAllChecboks() {
+        document.getElementsByName("checkboxs").forEach(checkbox => { if (!checkbox.checked) { checkbox.checked = true; } })
+    }
     return (
-        <Table responsive hover size="sm">
+        <Table responsive hover size="sm" className="mr-3">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Table heading</th>
-                    <th>Table heading</th>
-                    <th>Table heading</th>
-                    <th>Table heading</th>
-                    <th>Table heading</th>
-                    <th>Table heading</th>
+                    <th style={{ width: "10px" }}><Button size="sm" onClick={selectAllChecboks}>ST</Button></th>
+                    <th>Nombre</th>
+                    <th>Solapin</th>
+                    <th>Usuario</th>
+                    <th>Rol</th>
+                    <th className="text-center" style={{ width: "100px" }}>Modificar</th>
+                    <th className="text-center" style={{ width: "100px" }}>Borrar</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                </tr>
+                {
+                    datos.map((dato, i) => (
+                        <tr key={i}>
+                            <td className="text-center">
+                                <Form.Check id={dato.id} className="ml-1" type="checkbox" label="" name="checkboxs" />
+                            </td>
+                            <td>{dato.name}</td>
+                            <td>{dato.solapin}</td>
+                            <td>{dato.userName}</td>
+                            <td>{dato.rol}</td>
+                            <td className="text-center" ><Button variant="success" size="sm">MD</Button></td>
+                            <td className="text-center" ><Button id={dato.id} onClick={(e) => { onDelete([e.target.id]) }} variant="danger" size="sm">BR</Button></td>
+                        </tr>
+                    ))
+                }
             </tbody>
         </Table>
     )
