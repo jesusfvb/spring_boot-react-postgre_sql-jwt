@@ -27,4 +27,5 @@ public class Cuarteleria implements Serializable {
     public String toString() {
         return "Cuarteleria id:" + id;
     }
+    private static final long serialVersionUID = 1L;
 }

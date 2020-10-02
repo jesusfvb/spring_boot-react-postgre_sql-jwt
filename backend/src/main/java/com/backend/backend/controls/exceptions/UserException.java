@@ -4,6 +4,10 @@ package com.backend.backend.controls.exceptions;
 import org.springframework.http.HttpStatus;
 
 public class UserException extends RuntimeException {
+    /**
+     *
+     */
+
     private HttpStatus status;
 
     public UserException(String message) {
@@ -23,4 +27,5 @@ public class UserException extends RuntimeException {
     public void setStatus(HttpStatus status) {
         this.status = status;
     }
+    private static final long serialVersionUID = 1L;
 }

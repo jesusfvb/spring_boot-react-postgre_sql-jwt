@@ -1,12 +1,14 @@
 package com.backend.backend.repositorys;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 
 @Entity
 public class Users implements Serializable {
-    public enum Roles{Admin,DrRecidence,VicDecanoDeExtencion,Intructura,Professor,Student,}
-
+  
+    public enum Roles{Admin,DrRecidence,VicDecanoDeExtencion,Intructura,Professor,Student,};
+     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -76,4 +78,8 @@ public class Users implements Serializable {
     public String toString() {
         return "User id:" + id +" name:"+name+" solapin:"+solapin+" user:"+userName+" password:"+password+" rol:"+rol;
     }
+
+    private static final long serialVersionUID = 7723197986590521058L;
+
+
 }

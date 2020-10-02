@@ -4,6 +4,13 @@
             "type": "java",
             "name": "CodeLens (Launch) - BackendApplication",
             "request": "launch",
+            "mainClass": "com.backend.backend.BackendApplication",
+            "projectName": "backend"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - BackendApplication",
+            "request": "launch",
             "mainClass": "BackendApplication",
             "projectName": "backend"
         },

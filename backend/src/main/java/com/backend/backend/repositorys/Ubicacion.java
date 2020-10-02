@@ -27,4 +27,5 @@ public class Ubicacion implements Serializable {
     public String toString() {
         return "Ubicacion id:" + id;
     }
+    private static final long serialVersionUID = 1L;
 }

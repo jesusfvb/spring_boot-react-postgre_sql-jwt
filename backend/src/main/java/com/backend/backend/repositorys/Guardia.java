@@ -27,4 +27,5 @@ public class Guardia implements Serializable {
     public String toString() {
         return "Guardia id:" + id;
     }
+    private static final long serialVersionUID = 1L;
 }
