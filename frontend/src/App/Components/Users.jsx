@@ -24,8 +24,8 @@ export default class Users extends React.Component {
     componentDidMount() {
         this.loadData()
     }
-    loadData() {
-        GET(this.state.url).then(resul => { this.setState({ datos: resul }); this.resetForm() }).catch(error => { console.error(error) })
+    loadData(resetForm = true, menssge = true) {
+        GET(this.state.url).then(resul => { this.setState({ datos: resul }); if (resetForm) { this.resetForm("Datos Cargados", menssge) } }).catch(error => { this.props.Error(error.message) })
     }
     deleteData(ids = []) {
         let resetChecboxs = false
@@ -34,12 +34,12 @@ export default class Users extends React.Component {
             resetChecboxs = true
         }
         if (ids.length === 0) {
-            console.error("Seleccione Alguno")
+            this.props.Error("Seleccione Alguno")
         } else {
             if (resetChecboxs) {
                 Array.from(document.getElementsByName("checkboxs")).forEach(checkbox => { checkbox.checked = false })
             }
-            DELETE(this.state.url, ids).then((mensaje) => { this.loadData(); console.log(mensaje) }).catch(error => { console.error(error) })
+            DELETE(this.state.url, ids).then((mensaje) => { this.loadData(false); this.props.Success(mensaje) }).catch(error => { this.props.Error(error.message) })
         }
     }
     saveData(trarges = []) {
@@ -49,7 +49,7 @@ export default class Users extends React.Component {
             userName: trarges[2].value,
             password: trarges[3].value,
             rol: trarges[4].selectedIndex
-        }).then((mensaje) => { this.loadData(); console.log(mensaje) }).catch(error => { console.error(error) })
+        }).then((mensaje) => { this.loadData(true,false); this.props.Success(mensaje) }).catch(error => { this.props.Error(error.message) })
     }
     getDataForUpdate(id) {
         const fromInputs = Array.from(document.getElementsByName("fromInputs"))
@@ -60,7 +60,8 @@ export default class Users extends React.Component {
             fromInputs[4].value = data.rol
             console.log(data.rol)
             this.setState({ update: true, idForUpdate: id })
-        }).catch(error => { console.error(error) })
+            this.props.Success("Datos Cargados y Listo para Modificar")
+        }).catch(error => { this.props.Error(error.message) })
     }
     updateData(trarges = []) {
         POST(this.state.url, {
@@ -70,19 +71,22 @@ export default class Users extends React.Component {
             userName: trarges[2].value,
             password: trarges[3].value,
             rol: trarges[4].selectedIndex
-        }).then((mensaje) => { this.setState({ update: false, idForUpdate: -1, }, this.loadData()); console.log(mensaje) }).catch(error => { console.error(error) })
+        }).then((mensaje) => { this.setState({ update: false, idForUpdate: -1, }, this.loadData()); this.props.Success(mensaje) }).catch(error => { this.props.Error(error) })
     }
     canselUpdate() {
-        this.resetForm()
+        this.resetForm("Listo para Añadir")
         this.setState({ update: false, idForUpdate: -1, })
     }
-    resetForm() {
+    resetForm(mensaje = "Formulario Resetiado", mostar = true) {
         document.getElementsByTagName("form")[0].reset()
+        if (mostar) {
+            this.props.Success(mensaje)
+        }
     }
     searchData(text) {
-        if(text.length!==0){
-            PATCH(this.state.url + "/"+text).then(resul => { this.setState({ datos: resul }); this.resetForm() }).catch(error => { console.error(error) })
-        } else{
+        if (text.length !== 0) {
+            PATCH(this.state.url + "/" + text).then(resul => { this.setState({ datos: resul }); this.props.Success("Buaqueda Completada") }).catch(error => { this.props.Error(error) })
+        } else {
             this.loadData()
         }
     }
@@ -97,12 +101,14 @@ export default class Users extends React.Component {
                 </Col>
                 <Col className="border-top">
                     <InputGroup className="mb-3 mt-2">
-                        <FormControl placeholder="Escriva el Filtro(Si se deja vacio se Actualizara Los Datos) y Precione Enter para Filtrar" onKeyPress={(e) => { if (e.key === "Enter") {this.searchData(e.target.value)} }} />
+                        <FormControl placeholder="Escriva el Filtro(Si se deja vacio se Actualizara Los Datos) y Precione Enter para Filtrar" onKeyPress={(e) => { if (e.key === "Enter") { this.searchData(e.target.value) } }} />
                         <InputGroup.Append>
                             <Button variant="danger" onClick={(e) => { this.deleteData([]) }}>Borrar</Button>
                         </InputGroup.Append>
                     </InputGroup>
                     <UsersTable datos={this.state.datos} onDelete={this.deleteData} onUpdate={this.getDataForUpdate} />
+
+
                 </Col>
             </>
         )

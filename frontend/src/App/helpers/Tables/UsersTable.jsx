@@ -9,7 +9,7 @@ const UsersTable = ({ datos = [], onDelete, onUpdate }) => {
         <Table responsive hover size="sm" className="mr-3">
             <thead>
                 <tr>
-                    <th style={{ width: "10px" }}><Button size="sm" onClick={selectAllChecboks}>ST</Button></th>
+                    <th style={{ width: "10px" }}><Button variant="dark" size="sm" onClick={selectAllChecboks}>ST</Button></th>
                     <th>Nombre</th>
                     <th>Solapin</th>
                     <th>Usuario</th>
@@ -29,7 +29,7 @@ const UsersTable = ({ datos = [], onDelete, onUpdate }) => {
                             <td>{dato.solapin}</td>
                             <td>{dato.userName}</td>
                             <td>{dato.rol}</td>
-                            <td className="text-center" ><Button id={dato.id} onClick={(e) => { onUpdate(e.target.id) }} variant="success" size="sm">MD</Button></td>
+                            <td className="text-center" ><Button id={dato.id} onClick={(e) => { onUpdate(e.target.id) }} variant="warning" size="sm">MD</Button></td>
                             <td className="text-center" ><Button id={dato.id} onClick={(e) => { onDelete([e.target.id]) }} variant="danger" size="sm">BR</Button></td>
                         </tr>
                     ))

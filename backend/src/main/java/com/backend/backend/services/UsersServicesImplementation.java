@@ -20,13 +20,15 @@ public class UsersServicesImplementation implements UsersServises {
     public List<Users> allUsers() {
         return repository.findAllUserOrderByName();
     }
+
     @Override
     public List<Users> searchUsers(String text) {
         return repository.searchUser(text);
     }
+
     @Override
     public Users findUserById(Integer id) {
-        if(id ==null){
+        if (id == null) {
             throw new UserException("findUserById");
         } else {
             return repository.findById(id).get();
@@ -40,6 +42,7 @@ public class UsersServicesImplementation implements UsersServises {
         } else if (user.getId() != null) {
             throw new UserException("saveUser1");
         } else {
+            // Aqui va lo de encriptar la contraseña
             user.addOrUpdateSerch();
             repository.save(user);
         }
@@ -50,6 +53,11 @@ public class UsersServicesImplementation implements UsersServises {
         if (user.getId() == null) {
             throw new UserException("updateUsers");
         } else {
+            if (user.getPassword().length() == 0) {
+                user.setPassword(findUserById(user.getId()).getPassword());
+            } else {
+                // Aqui va lo de encriptar la contraseña
+            }
             user.addOrUpdateSerch();
             repository.save(user);
         }
