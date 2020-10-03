@@ -6,9 +6,11 @@ import java.io.Serializable;
 
 @Entity
 public class Users implements Serializable {
-  
-    public enum Roles{Administrador,DrRecidence,VicDecExtencion,Intructura,Profesor,Estudiante,};
-     
+
+    public enum Roles {
+        Administrador, DrRecidence, VicDecExtencion, Intructura, Profesor, Estudiante,
+    };
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -22,6 +24,8 @@ public class Users implements Serializable {
     private String password;
     @Column
     private Roles rol;
+    @Column
+    private String seach;
 
     public Users() {
     }
@@ -74,12 +78,24 @@ public class Users implements Serializable {
         this.rol = rol;
     }
 
+    public String getSeach() {
+        return seach;
+    }
+
+    public void setSeach(String seach) {
+        this.seach = seach;
+    }
+
+    public void addOrUpdateSerch(){
+        seach =""+name+" "+solapin+" "+userName+" "+rol;
+    }
+
     @Override
     public String toString() {
-        return "User id:" + id +" name:"+name+" solapin:"+solapin+" user:"+userName+" password:"+password+" rol:"+rol;
+        return "User id:" + id + " name:" + name + " solapin:" + solapin + " user:" + userName + " password:" + password
+                + " rol:" + rol;
     }
 
     private static final long serialVersionUID = 7723197986590521058L;
-
 
 }

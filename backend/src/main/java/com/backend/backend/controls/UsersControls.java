@@ -44,4 +44,9 @@ public class UsersControls {
         servises.deleteUsers(ids);
         return new ResponseEntity<>("Usuario(s) Eliminados", HttpStatus.OK);
     }
+
+    @PatchMapping("/{text}")
+    private ResponseEntity<List<Users>> searchUsers(@PathVariable String text) {
+        return new ResponseEntity<>(servises.searchUsers(text), HttpStatus.OK);
+    }
 }

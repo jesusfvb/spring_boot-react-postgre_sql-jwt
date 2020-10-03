@@ -10,7 +10,7 @@ class App extends React.Component {
 
    render() {
       return (
-         <Container fluid>
+         <Container fluid >
             <Row>
                <NavBar/>
             </Row>

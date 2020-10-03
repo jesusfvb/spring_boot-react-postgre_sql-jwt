@@ -11,6 +11,8 @@ public interface UsersServises {
 
     List<Users> allUsers();
 
+    List<Users> searchUsers(String text);
+
     Users findUserById(Integer id);
 
     void saveUser(Users user);

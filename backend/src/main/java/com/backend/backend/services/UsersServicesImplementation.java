@@ -20,7 +20,10 @@ public class UsersServicesImplementation implements UsersServises {
     public List<Users> allUsers() {
         return repository.findAllUserOrderByName();
     }
-
+    @Override
+    public List<Users> searchUsers(String text) {
+        return repository.searchUser(text);
+    }
     @Override
     public Users findUserById(Integer id) {
         if(id ==null){
@@ -37,6 +40,7 @@ public class UsersServicesImplementation implements UsersServises {
         } else if (user.getId() != null) {
             throw new UserException("saveUser1");
         } else {
+            user.addOrUpdateSerch();
             repository.save(user);
         }
     }
@@ -46,6 +50,7 @@ public class UsersServicesImplementation implements UsersServises {
         if (user.getId() == null) {
             throw new UserException("updateUsers");
         } else {
+            user.addOrUpdateSerch();
             repository.save(user);
         }
     }

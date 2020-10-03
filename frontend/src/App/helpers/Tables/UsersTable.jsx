@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Form, Table } from 'react-bootstrap'
 
-const UsersTable = ({ datos = [], onDelete }) => {
+const UsersTable = ({ datos = [], onDelete, onUpdate }) => {
     function selectAllChecboks() {
         document.getElementsByName("checkboxs").forEach(checkbox => { if (!checkbox.checked) { checkbox.checked = true; } })
     }
@@ -29,7 +29,7 @@ const UsersTable = ({ datos = [], onDelete }) => {
                             <td>{dato.solapin}</td>
                             <td>{dato.userName}</td>
                             <td>{dato.rol}</td>
-                            <td className="text-center" ><Button variant="success" size="sm">MD</Button></td>
+                            <td className="text-center" ><Button id={dato.id} onClick={(e) => { onUpdate(e.target.id) }} variant="success" size="sm">MD</Button></td>
                             <td className="text-center" ><Button id={dato.id} onClick={(e) => { onDelete([e.target.id]) }} variant="danger" size="sm">BR</Button></td>
                         </tr>
                     ))

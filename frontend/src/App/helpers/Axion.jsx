@@ -101,3 +101,71 @@ export const PUT = (url,data) => {
             .catch(error => reject(error));
     })
 }
+export const POST = (url,data) => {
+    return new Promise((resolve, reject) => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify(data);
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        let status = null
+        fetch("" + server + url, requestOptions)
+            .then(response => { status = response.status; return response.text() })
+            .then(result => {
+                try {
+                    result = JSON.parse(result);
+                } catch (error) {
+                    if (status === 200) {
+                        resolve(result)
+                    } else {
+                        reject(result)
+                    }
+                }
+                if (status === 200) {
+                    resolve(result)
+                } else {
+                    reject(result)
+                }
+            })
+            .catch(error => reject(error));
+    })
+}
+export const PATCH = (url) => {
+    return new Promise((resolve, reject) => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var requestOptions = {
+            method: 'PATCH',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        let status = null
+        fetch("" + server + url, requestOptions)
+            .then(response => { status = response.status; return response.text() })
+            .then(result => {
+                try {
+                    result = JSON.parse(result);
+                } catch (error) {
+                    if (status === 200) {
+                        resolve(result)
+                    } else {
+                        reject(result)
+                    }
+                }
+                if (status === 200) {
+                    resolve(result)
+                } else {
+                    reject(result)
+                }
+            })
+            .catch(error => reject(error));
+    })
+}
