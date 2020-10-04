@@ -42,7 +42,7 @@ public class UsersControls {
     @DeleteMapping()
     private ResponseEntity<Object> delete(@RequestBody Integer ids[]) {
         servises.deleteUsers(ids);
-        return new ResponseEntity<>("Usuario(s) Eliminados", HttpStatus.OK);
+        return new ResponseEntity<>("Usuario(s) Eliminado(s)", HttpStatus.OK);
     }
 
     @PatchMapping("/{text}")

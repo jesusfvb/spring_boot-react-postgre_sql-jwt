@@ -86,8 +86,8 @@ public class Users implements Serializable {
         this.seach = seach;
     }
 
-    public void addOrUpdateSerch(){
-        seach =""+name+" "+solapin+" "+userName+" "+rol;
+    public void addOrUpdateSerch() {
+        seach = "" + name + " " + solapin + " " + userName + " " + rol;
     }
 
     @Override

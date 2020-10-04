@@ -2,10 +2,10 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Alert, Container, Row } from 'react-bootstrap'
 
-
 import NavBar from './Components/NavBar'
 // import Home from './Components/Home'
-import Users from './Components/Users'
+// import Users from './Components/Users'
+import Ubicacion from './Components/Ubicacion'
 
 class App extends React.Component {
    constructor(props) {
@@ -54,7 +54,8 @@ class App extends React.Component {
             </Row>
             <Row>
                {/* <Home/> */}
-               <Users Error={this.Error}  Success={this.Success}/>
+               {/* <Users Error={this.Error}  Success={this.Success}/> */}
+               <Ubicacion Error={this.Error}  Success={this.Success}/>
             </Row>
             <Row>
                {/* Aqui va el Footer */}

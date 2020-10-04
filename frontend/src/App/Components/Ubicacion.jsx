@@ -2,9 +2,9 @@ import React from 'react'
 import { Col, InputGroup, FormControl, Button, Alert } from 'react-bootstrap'
 import { DELETE, GET, PUT, POST, PATCH } from '../helpers/Axion'
 import { Balidador, Balidar } from '../helpers/Balidaciones'
-import UsersForm from '../helpers/Forms/UsersForm'
-import UsersTable from '../helpers/Tables/UsersTable'
-export default class Users extends React.Component {
+import UbicacionForm from '../helpers/Forms/UbicacioForm'
+import UbicacionTable from '../helpers/Tables/UbicacionTable'
+export default class Ubicacion extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -114,7 +114,7 @@ export default class Users extends React.Component {
                 <Col xs="3" className="border-right border-top">
                     <Alert className="mt-2" variant="dark">
                         <h3>{(!this.state.update) ? "Añadir" : "Modificar"} Usuario <Button className="float-right mt-2" size="sm" variant="danger" onClick={() => { this.resetForm() }}>RESET</Button></h3>
-                        <UsersForm saveData={this.saveData} update={this.state.update} updateData={this.updateData} onCansel={this.canselUpdate} />
+                        <UbicacionForm saveData={this.saveData} update={this.state.update} updateData={this.updateData} onCansel={this.canselUpdate} />
                     </Alert>
                 </Col>
                 <Col className="border-top">
@@ -127,7 +127,7 @@ export default class Users extends React.Component {
                             <Button variant="danger" onClick={(e) => { this.deleteData([]) }}>Borrar Selecionados</Button>
                         </InputGroup.Append>
                     </InputGroup>
-                    <UsersTable datos={this.state.datos} onDelete={this.deleteData} onUpdate={this.getDataForUpdate} />
+                    <UbicacionTable datos={this.state.datos} onDelete={this.deleteData} onUpdate={this.getDataForUpdate} />
                 </Col>
             </>
         )
