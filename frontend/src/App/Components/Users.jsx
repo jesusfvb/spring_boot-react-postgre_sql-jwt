@@ -1,6 +1,7 @@
 import React from 'react'
 import { Col, InputGroup, FormControl, Button, Alert } from 'react-bootstrap'
 import { DELETE, GET, PUT, POST, PATCH } from '../helpers/Axion'
+import { Balidador, Balidar } from '../helpers/Balidaciones'
 import UsersForm from '../helpers/Forms/UsersForm'
 import UsersTable from '../helpers/Tables/UsersTable'
 export default class Users extends React.Component {
@@ -10,6 +11,7 @@ export default class Users extends React.Component {
             url: "/users",
             update: false,
             idForUpdate: -1,
+            dataForUpdate: null,
             datos: [],
         }
         this.loadData = this.loadData.bind(this);
@@ -43,13 +45,17 @@ export default class Users extends React.Component {
         }
     }
     saveData(trarges = []) {
-        PUT(this.state.url, {
-            name: trarges[0].value,
-            solapin: trarges[1].value,
-            userName: trarges[2].value,
-            password: trarges[3].value,
-            rol: trarges[4].selectedIndex
-        }).then((mensaje) => { this.loadData(true,false); this.props.Success(mensaje) }).catch(error => { this.props.Error(error.message) })
+        if (Balidador(trarges)) {
+            PUT(this.state.url, {
+                name: trarges[0].value,
+                solapin: trarges[1].value,
+                userName: trarges[2].value,
+                password: trarges[3].value,
+                rol: trarges[4].selectedIndex
+            }).then((mensaje) => { this.loadData(true, false); this.props.Success(mensaje) }).catch(error => { this.props.Error(error.message) })
+        } else {
+            this.props.Error("Faltan datos por rellenar")
+        }
     }
     getDataForUpdate(id) {
         const fromInputs = Array.from(document.getElementsByName("fromInputs"))
@@ -58,27 +64,39 @@ export default class Users extends React.Component {
             fromInputs[1].value = data.solapin
             fromInputs[2].value = data.userName
             fromInputs[4].value = data.rol
-            console.log(data.rol)
-            this.setState({ update: true, idForUpdate: id })
+            this.setState({ update: true, idForUpdate: id, dataForUpdate: data })
+            Balidar(fromInputs, true)
             this.props.Success("Datos Cargados y Listo para Modificar")
         }).catch(error => { this.props.Error(error.message) })
     }
     updateData(trarges = []) {
-        POST(this.state.url, {
-            id: this.state.idForUpdate,
-            name: trarges[0].value,
-            solapin: trarges[1].value,
-            userName: trarges[2].value,
-            password: trarges[3].value,
-            rol: trarges[4].selectedIndex
-        }).then((mensaje) => { this.setState({ update: false, idForUpdate: -1, }, this.loadData()); this.props.Success(mensaje) }).catch(error => { this.props.Error(error) })
+        if (Balidador(trarges)) {
+            POST(this.state.url, {
+                id: this.state.idForUpdate,
+                name: trarges[0].value,
+                solapin: trarges[1].value,
+                userName: trarges[2].value,
+                password: trarges[3].value,
+                rol: trarges[4].selectedIndex
+            }).then((mensaje) => { this.setState({ update: false, idForUpdate: -1, dataForUpdate: null }, this.loadData(true, false)); this.props.Success(mensaje) }).catch(error => { this.props.Error(error) })
+        }
     }
     canselUpdate() {
-        this.resetForm("Listo para Añadir")
-        this.setState({ update: false, idForUpdate: -1, })
+        this.setState({ update: false, idForUpdate: -1, dataForUpdate: null }, () => { this.resetForm("Listo para Añadir") })
     }
     resetForm(mensaje = "Formulario Resetiado", mostar = true) {
-        document.getElementsByTagName("form")[0].reset()
+        let form = document.getElementsByTagName("form")[0]
+        let fromInputs = Array.from(document.getElementsByName("fromInputs"))
+        if (this.state.update) {
+            fromInputs[0].value = this.state.dataForUpdate.name
+            fromInputs[1].value = this.state.dataForUpdate.solapin
+            fromInputs[2].value = this.state.dataForUpdate.userName
+            fromInputs[4].value = this.state.dataForUpdate.rol
+            Balidar(Array.from(fromInputs), true)
+        } else {
+            Balidar(Array.from(fromInputs), false)
+            form.reset()
+        }
         if (mostar) {
             this.props.Success(mensaje)
         }
@@ -103,7 +121,10 @@ export default class Users extends React.Component {
                     <InputGroup className="mb-3 mt-2">
                         <FormControl placeholder="Escriva el Filtro(Si se deja vacio se Actualizara Los Datos) y Precione Enter para Filtrar" onKeyPress={(e) => { if (e.key === "Enter") { this.searchData(e.target.value) } }} />
                         <InputGroup.Append>
-                            <Button variant="danger" onClick={(e) => { this.deleteData([]) }}>Borrar</Button>
+                            <Button onClick={(e) => { e.target.parentElement.previousElementSibling.value = ""; this.loadData() }}>Canselar Filtro</Button>
+                        </InputGroup.Append>
+                        <InputGroup.Append>
+                            <Button variant="danger" onClick={(e) => { this.deleteData([]) }}>Borrar Selecionados</Button>
                         </InputGroup.Append>
                     </InputGroup>
                     <UsersTable datos={this.state.datos} onDelete={this.deleteData} onUpdate={this.getDataForUpdate} />
