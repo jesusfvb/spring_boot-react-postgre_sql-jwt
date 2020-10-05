@@ -8,7 +8,7 @@ export default class Ubicacion extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            url: "/users",
+            url: "/ubicacion",
             update: false,
             idForUpdate: -1,
             dataForUpdate: null,
@@ -47,11 +47,9 @@ export default class Ubicacion extends React.Component {
     saveData(trarges = []) {
         if (Balidador(trarges)) {
             PUT(this.state.url, {
-                name: trarges[0].value,
-                solapin: trarges[1].value,
-                userName: trarges[2].value,
-                password: trarges[3].value,
-                rol: trarges[4].selectedIndex
+                user: { id: 72 },
+                grupo: trarges[2].value,
+                apartamento: trarges[3].value,
             }).then((mensaje) => { this.loadData(true, false); this.props.Success(mensaje) }).catch(error => { this.props.Error(error.message) })
         } else {
             this.props.Error("Faltan datos por rellenar")
@@ -60,10 +58,10 @@ export default class Ubicacion extends React.Component {
     getDataForUpdate(id) {
         const fromInputs = Array.from(document.getElementsByName("fromInputs"))
         GET(this.state.url + "/" + id).then((data) => {
-            fromInputs[0].value = data.name
-            fromInputs[1].value = data.solapin
-            fromInputs[2].value = data.userName
-            fromInputs[4].value = data.rol
+            fromInputs[0].value = data.user.name
+            fromInputs[1].value = data.user.solapin
+            fromInputs[2].value = data.grupo
+            fromInputs[3].value = data.apartamento
             this.setState({ update: true, idForUpdate: id, dataForUpdate: data })
             Balidar(fromInputs, true)
             this.props.Success("Datos Cargados y Listo para Modificar")
@@ -73,11 +71,9 @@ export default class Ubicacion extends React.Component {
         if (Balidador(trarges)) {
             POST(this.state.url, {
                 id: this.state.idForUpdate,
-                name: trarges[0].value,
-                solapin: trarges[1].value,
-                userName: trarges[2].value,
-                password: trarges[3].value,
-                rol: trarges[4].selectedIndex
+                user: { id: 72 },
+                grupo: trarges[2].value,
+                apartamento: trarges[3].value,
             }).then((mensaje) => { this.setState({ update: false, idForUpdate: -1, dataForUpdate: null }, this.loadData(true, false)); this.props.Success(mensaje) }).catch(error => { this.props.Error(error) })
         }
     }
@@ -88,10 +84,10 @@ export default class Ubicacion extends React.Component {
         let form = document.getElementsByTagName("form")[0]
         let fromInputs = Array.from(document.getElementsByName("fromInputs"))
         if (this.state.update) {
-            fromInputs[0].value = this.state.dataForUpdate.name
-            fromInputs[1].value = this.state.dataForUpdate.solapin
-            fromInputs[2].value = this.state.dataForUpdate.userName
-            fromInputs[4].value = this.state.dataForUpdate.rol
+            fromInputs[0].value = this.state.dataForUpdate.user.name
+            fromInputs[1].value = this.state.dataForUpdate.user.solapin
+            fromInputs[2].value = this.state.dataForUpdate.grupo
+            fromInputs[3].value = this.state.dataForUpdate.apartamento
             Balidar(Array.from(fromInputs), true)
         } else {
             Balidar(Array.from(fromInputs), false)
@@ -113,7 +109,7 @@ export default class Ubicacion extends React.Component {
             <>
                 <Col xs="3" className="border-right border-top">
                     <Alert className="mt-2" variant="dark">
-                        <h3>{(!this.state.update) ? "Añadir" : "Modificar"} Usuario <Button className="float-right mt-2" size="sm" variant="danger" onClick={() => { this.resetForm() }}>RESET</Button></h3>
+                        <h3>{(!this.state.update) ? "Añadir" : "Modificar"} Ubicacion <Button className="float-right mt-2" size="sm" variant="danger" onClick={() => { this.resetForm() }}>RESET</Button></h3>
                         <UbicacionForm saveData={this.saveData} update={this.state.update} updateData={this.updateData} onCansel={this.canselUpdate} />
                     </Alert>
                 </Col>
@@ -121,10 +117,10 @@ export default class Ubicacion extends React.Component {
                     <InputGroup className="mb-3 mt-2">
                         <FormControl placeholder="Escriva el Filtro(Si se deja vacio se Actualizara Los Datos) y Precione Enter para Filtrar" onKeyPress={(e) => { if (e.key === "Enter") { this.searchData(e.target.value) } }} />
                         <InputGroup.Append>
-                            <Button onClick={(e) => { e.target.parentElement.previousElementSibling.value = ""; this.loadData() }}>Canselar Filtro</Button>
+                            <Button onClick={(e) => { e.target.parentElement.previousElementSibling.value = ""; this.loadData() }}>X</Button>
                         </InputGroup.Append>
                         <InputGroup.Append>
-                            <Button variant="danger" onClick={(e) => { this.deleteData([]) }}>Borrar Selecionados</Button>
+                            <Button variant="danger" onClick={(e) => { this.deleteData([]) }}>Borrar</Button>
                         </InputGroup.Append>
                     </InputGroup>
                     <UbicacionTable datos={this.state.datos} onDelete={this.deleteData} onUpdate={this.getDataForUpdate} />

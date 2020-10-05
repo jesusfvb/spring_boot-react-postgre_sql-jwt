@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Col, Button } from 'react-bootstrap'
-import { Name, Solapin, UserName, Password, Select } from '../Balidaciones';
+import { Name, Solapin, Grupo, Apartamento } from '../Balidaciones';
 
 const UbicacionForm = ({ saveData, update = false, updateData, onCansel }) => {
     return (
@@ -15,26 +15,13 @@ const UbicacionForm = ({ saveData, update = false, updateData, onCansel }) => {
                 <Form.Control name="fromInputs" placeholder="Escriba el Solpin" isInvalid onChange={(e) => { Solapin(e.target) }} />
             </Form.Group>
             <Form.Group as={Col}>
-                <Form.Label>Usuario</Form.Label>
-                <Form.Control name="fromInputs" placeholder="Escriba el Usuario" isInvalid onChange={(e) => { UserName(e.target) }} />
+                <Form.Label>Grupo</Form.Label>
+                <Form.Control name="fromInputs" placeholder="Escriba el Grupo" isInvalid onChange={(e) => { Grupo(e.target)}} />
             </Form.Group>
 
             <Form.Group as={Col}>
-                <Form.Label>Contraseña</Form.Label>
-                <Form.Control name="fromInputs" type="password" placeholder="Escriba la Contraseña" isInvalid onChange={(e) => { Password(e.target) }} />
-            </Form.Group>
-
-            <Form.Group as={Col}>
-                <Form.Label>Rol</Form.Label>
-                <Form.Control name="fromInputs" as="select" custom defaultValue="" isInvalid onChange={(e) => { Select(e.target) }}>
-                    <option defaultValue="0">Administrador</option>
-                    <option defaultValue="1">DrRecidence</option>
-                    <option defaultValue="2">VicDecExtencion</option>
-                    <option defaultValue="3">Intructura</option>
-                    <option defaultValue="4">Profesor</option>
-                    <option defaultValue="5">Estudiante</option>
-                    <option defaultValue="6"></option>
-                </Form.Control>
+                <Form.Label>Apartamento</Form.Label>
+                <Form.Control name="fromInputs" placeholder="Escriba el Apartamento" isInvalid onChange={(e) => {Apartamento(e.target) }} />
             </Form.Group>
 
             <Col className="text-right">

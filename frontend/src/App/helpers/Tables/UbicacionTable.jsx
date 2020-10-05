@@ -12,8 +12,8 @@ const UbicacionTable = ({ datos = [], onDelete, onUpdate }) => {
                     <th style={{ width: "10px" }}><Button variant="dark" size="sm" onClick={selectAllChecboks}>ST</Button></th>
                     <th>Nombre</th>
                     <th>Solapin</th>
-                    <th>Usuario</th>
-                    <th>Rol</th>
+                    <th>Grupo</th>
+                    <th>Apartamento</th>
                     <th className="text-center" style={{ width: "100px" }}>Modificar</th>
                     <th className="text-center" style={{ width: "100px" }}>Borrar</th>
                 </tr>
@@ -25,10 +25,10 @@ const UbicacionTable = ({ datos = [], onDelete, onUpdate }) => {
                             <td className="text-center">
                                 <Form.Check id={dato.id} className="ml-1" type="checkbox" label="" name="checkboxs" />
                             </td>
-                            <td>{dato.name}</td>
-                            <td>{dato.solapin}</td>
-                            <td>{dato.userName}</td>
-                            <td>{dato.rol}</td>
+                            <td>{dato.user.name}</td>
+                            <td>{dato.user.solapin}</td>
+                            <td>{dato.grupo}</td>
+                            <td>{dato.apartamento}</td>
                             <td className="text-center" ><Button id={dato.id} onClick={(e) => { onUpdate(e.target.id) }} variant="warning" size="sm">MD</Button></td>
                             <td className="text-center" ><Button id={dato.id} onClick={(e) => { onDelete([e.target.id]) }} variant="danger" size="sm">BR</Button></td>
                         </tr>

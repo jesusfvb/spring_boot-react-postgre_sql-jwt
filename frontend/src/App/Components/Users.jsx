@@ -121,10 +121,10 @@ export default class Users extends React.Component {
                     <InputGroup className="mb-3 mt-2">
                         <FormControl placeholder="Escriva el Filtro(Si se deja vacio se Actualizara Los Datos) y Precione Enter para Filtrar" onKeyPress={(e) => { if (e.key === "Enter") { this.searchData(e.target.value) } }} />
                         <InputGroup.Append>
-                            <Button onClick={(e) => { e.target.parentElement.previousElementSibling.value = ""; this.loadData() }}>Canselar Filtro</Button>
+                            <Button onClick={(e) => { e.target.parentElement.previousElementSibling.value = ""; this.loadData() }}>X</Button>
                         </InputGroup.Append>
                         <InputGroup.Append>
-                            <Button variant="danger" onClick={(e) => { this.deleteData([]) }}>Borrar Selecionados</Button>
+                            <Button variant="danger" onClick={(e) => { this.deleteData([]) }}>Borrar</Button>
                         </InputGroup.Append>
                     </InputGroup>
                     <UsersTable datos={this.state.datos} onDelete={this.deleteData} onUpdate={this.getDataForUpdate} />

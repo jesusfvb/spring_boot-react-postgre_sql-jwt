@@ -53,8 +53,34 @@ export const Password = (target) => {
 export const Select = (target, incorrectos = [""]) => {
     let salida = true, valor = target.value.toString(), contador = 0
     while (salida && contador < incorrectos.length) {
-        salida = !Boolean(valor===incorrectos[contador])
-            contador++
+        salida = !Boolean(valor === incorrectos[contador])
+        contador++
+    }
+    Balidar([target], salida)
+}
+export const Grupo = (target) => {
+    let salida = true, valor = target.value.toString()
+    if (salida) {
+        salida = !Boolean(valor.length === 0 || valor.length !== 4)
+    }
+    if (salida) {
+        salida = !/([A-Z]|[a-z]|\W)/.test(valor)
+    }
+    if (salida) {
+        salida = /(\d)/.test(valor)
+    }
+    Balidar([target], salida)
+}
+export const Apartamento = (target) => {
+    let salida = true, valor = target.value.toString()
+    if (salida) {
+        salida = !Boolean(valor.length === 0 || valor.length < 4 || valor.length > 6)
+    }
+    if (salida) {
+        salida = !/([A-Z]|[a-z]|\W)/.test(valor)
+    }
+    if (salida) {
+        salida = /(\d)/.test(valor)
     }
     Balidar([target], salida)
 }

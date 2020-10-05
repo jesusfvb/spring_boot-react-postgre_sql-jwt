@@ -2,10 +2,10 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Alert, Container, Row } from 'react-bootstrap'
 
-import NavBar from './Components/NavBar'
-// import Home from './Components/Home'
-// import Users from './Components/Users'
-import Ubicacion from './Components/Ubicacion'
+import NavBar from './components/NavBar'
+// import Home from './components/Home'
+// import Users from './components/Users'
+import Ubicacion from './components/Ubicacion'
 
 class App extends React.Component {
    constructor(props) {
