@@ -23,15 +23,21 @@ public class ExceptiosnHandler {
 
     }
 
+    @ExceptionHandler(value = CuarteleriaException.class)
+    public ResponseEntity<Object> ubicacionException(CuarteleriaException e) {
+        return new ResponseEntity<>(e, e.getStatus());
+
+    }
+
     @ExceptionHandler(value = HttpMessageNotReadableException.class)
     public ResponseEntity<Object> HttpMessageNotReadableException(HttpMessageNotReadableException e) {
-        Exception pivote = new Exception("Objeto Recivido Incorrecto",e.getCause());
+        Exception pivote = new Exception("Objeto Recivido Incorrecto", e.getCause());
         return new ResponseEntity<>(pivote, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
     @ExceptionHandler(value = NoSuchElementException.class)
     public ResponseEntity<Object> NoSuchElementException(NoSuchElementException e) {
-        Exception pivote = new Exception("No se encontro en la Base de Datos",e.getCause());
+        Exception pivote = new Exception("No se encontro en la Base de Datos", e.getCause());
         return new ResponseEntity<>(pivote, HttpStatus.NOT_FOUND);
     }
 

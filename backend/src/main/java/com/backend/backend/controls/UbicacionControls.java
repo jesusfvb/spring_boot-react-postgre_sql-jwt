@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/ubicacion")
-@CrossOrigin(value = "*")
+@CrossOrigin("*")
 public class UbicacionControls {
     @Autowired
     private UbicacionServises servises;
