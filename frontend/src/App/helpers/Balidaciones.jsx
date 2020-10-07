@@ -84,6 +84,16 @@ export const Apartamento = (target) => {
     }
     Balidar([target], salida)
 }
+export const Fecha = (target) => {
+    let salida = true, valor = target.value.toString()
+    if (salida) {
+        salida = !Boolean(valor.length === 0)
+    }
+    if (salida) {
+        salida = !/([A-Z]|[a-z])/.test(valor)
+    }
+    Balidar([target], salida)
+}
 export const Balidar = (targets = [], valor = true) => {
     targets.forEach((target) => {
         if (valor === true) {
