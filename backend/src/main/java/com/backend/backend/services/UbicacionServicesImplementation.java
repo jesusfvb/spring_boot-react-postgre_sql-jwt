@@ -51,6 +51,7 @@ public class UbicacionServicesImplementation implements UbicacionServises {
             ubicacion.setUser(serviseUser.findUserById(ubicacion.getUser().getId()));
             ubicacion.addOrUpdateSerch();
             repository.save(ubicacion);
+
         }
     }
 

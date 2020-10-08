@@ -29,6 +29,12 @@ public class ExceptiosnHandler {
 
     }
 
+    @ExceptionHandler(value = GuardiaException.class)
+    public ResponseEntity<Object> ubicacionException(GuardiaException e) {
+        return new ResponseEntity<>(e, e.getStatus());
+
+    }
+
     @ExceptionHandler(value = HttpMessageNotReadableException.class)
     public ResponseEntity<Object> HttpMessageNotReadableException(HttpMessageNotReadableException e) {
         Exception pivote = new Exception("Objeto Recivido Incorrecto", e.getCause());
@@ -37,7 +43,7 @@ public class ExceptiosnHandler {
 
     @ExceptionHandler(value = NoSuchElementException.class)
     public ResponseEntity<Object> NoSuchElementException(NoSuchElementException e) {
-        Exception pivote = new Exception("No se encontro en la Base de Datos", e.getCause());
+        Exception pivote = new RuntimeException("No se encontro en la Base de Datos");
         return new ResponseEntity<>(pivote, HttpStatus.NOT_FOUND);
     }
 
