@@ -6,7 +6,8 @@ import NavBar from './components/NavBar'
 // import Home from './components/Home'
 // import Users from './components/Users'
 // import Ubicacion from './components/Ubicacion'
-import Cuarteleria from './components/Cuarteleria'
+// import Cuarteleria from './components/Cuarteleria'
+import Guardia from './components/Guardia'
 
 class App extends React.Component {
    constructor(props) {
@@ -56,7 +57,8 @@ class App extends React.Component {
             <Row>
                {/* <Home/> */}
                {/* <Users Error={this.Error}  Success={this.Success}/> */}
-               <Cuarteleria Error={this.Error}  Success={this.Success}/>
+               {/* <Cuarteleria Error={this.Error}  Success={this.Success}/> */}
+               <Guardia Error={this.Error}  Success={this.Success}/>
             </Row>
             <Row>
                {/* Aqui va el Footer */}
