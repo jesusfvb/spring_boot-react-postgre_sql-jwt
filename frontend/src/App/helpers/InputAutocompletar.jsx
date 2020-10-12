@@ -16,7 +16,7 @@ export default class InputAutocompletar extends React.Component {
     }
     componentDidMount() {
         if (this.props.url !== undefined) {
-            GET(this.props.url).then(dato => { this.setState({datos:dato})}).catch(error => { console.error("error", error) })
+            GET(this.props.url).then(dato => { this.setState({ datos: dato, save: dato }) }).catch(error => { console.error("error", error) })
         } else {
             this.setState({ datos: this.props.datos, save: this.props.datos })
         }
@@ -31,7 +31,7 @@ export default class InputAutocompletar extends React.Component {
     }
     ponerDatos(i, comprovar = true) {
         if (Number.isInteger(Number.parseInt(i))) {
-            let contenedor = document.getElementsByName("inputAutocompletar")[0]
+            let contenedor = document.getElementsByClassName("inputAutocompletar")[0]
             contenedor.id = this.state.datos[i].id
             contenedor.value = this.state.datos[i][this.props.acceso]
             if (comprovar) {
@@ -50,7 +50,10 @@ export default class InputAutocompletar extends React.Component {
     render() {
         return (
             <Dropdown>
-                <Dropdown.Toggle name="inputAutocompletar" as={Form.Control} onChange={(e) => { this.filtro(e.target.value) }} onBlurCapture={(e) => { this.comprovar(e.target.value) }} />
+                <Dropdown.Toggle isInvalid={this.props.isInvalid} placeholder={this.props.placeholder} name={this.props.name} className="inputAutocompletar"
+                    as={Form.Control} onChange={(e) => { this.filtro(e.target.value); if (this.props.onChange !== undefined) { this.props.onChange(e) } }}
+                    onBlurCapture={(e) => { this.comprovar(e.target.value); if (this.props.onChange !== undefined) { this.props.onChange(e) } }}
+                    onFocusCapture={(e) => { this.filtro(e.target.value) }} />
                 <Dropdown.Menu>
                     {this.state.datos.map((dato, i) => (
                         <Dropdown.Item key={i} eventKey={i} onSelect={(e) => { this.ponerDatos(e) }}>{dato[this.props.acceso]}</Dropdown.Item>

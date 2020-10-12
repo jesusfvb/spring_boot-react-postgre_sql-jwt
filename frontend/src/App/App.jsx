@@ -1,12 +1,11 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Alert, Container, Row } from 'react-bootstrap'
-import InputAutocompletar from './helpers/InputAutocompletar'
 
 import NavBar from './components/NavBar'
 // import Home from './components/Home'
 // import Users from './components/Users'
-// import Ubicacion from './components/Ubicacion'
+import Ubicacion from './components/Ubicacion'
 // import Cuarteleria from './components/Cuarteleria'
 // import Guardia from './components/Guardia'
 
@@ -59,7 +58,7 @@ class App extends React.Component {
                {/* <Home/> */}
                {/* <Users Error={this.Error}  Success={this.Success}/> */}
                {/* <Cuarteleria Error={this.Error}  Success={this.Success}/> */}
-               {/* <Ubicacion Error={this.Error}  Success={this.Success}/> */}
+               <Ubicacion Error={this.Error}  Success={this.Success}/>
                {/* <Guardia Error={this.Error}  Success={this.Success}/> */}
             </Row>
             <Row>

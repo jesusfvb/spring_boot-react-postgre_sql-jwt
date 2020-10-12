@@ -47,9 +47,9 @@ export default class Ubicacion extends React.Component {
     saveData(trarges = []) {
         if (Balidador(trarges)) {
             PUT(this.state.url, {
-                user: { id: 72 },
-                grupo: trarges[2].value,
-                apartamento: trarges[3].value,
+                user: { id: trarges[0].id },
+                grupo: trarges[1].value,
+                apartamento: trarges[2].value,
             }).then((mensaje) => { this.loadData(true, false); this.props.Success(mensaje) }).catch(error => { this.props.Error(error.message) })
         } else {
             this.props.Error("Faltan datos por rellenar")
@@ -59,9 +59,9 @@ export default class Ubicacion extends React.Component {
         const fromInputs = Array.from(document.getElementsByName("fromInputs"))
         GET(this.state.url + "/" + id).then((data) => {
             fromInputs[0].value = data.user.name
-            fromInputs[1].value = data.user.solapin
-            fromInputs[2].value = data.grupo
-            fromInputs[3].value = data.apartamento
+            fromInputs[0].id = data.user.id
+            fromInputs[1].value = data.grupo
+            fromInputs[2].value = data.apartamento
             this.setState({ update: true, idForUpdate: id, dataForUpdate: data })
             Balidar(fromInputs, true)
             this.props.Success("Datos Cargados y Listo para Modificar")
@@ -71,9 +71,9 @@ export default class Ubicacion extends React.Component {
         if (Balidador(trarges)) {
             POST(this.state.url, {
                 id: this.state.idForUpdate,
-                user: { id: 72 },
-                grupo: trarges[2].value,
-                apartamento: trarges[3].value,
+                user: { id: trarges[0].id },
+                grupo: trarges[1].value,
+                apartamento: trarges[2].value,
             }).then((mensaje) => { this.setState({ update: false, idForUpdate: -1, dataForUpdate: null }, this.loadData(true, false)); this.props.Success(mensaje) }).catch(error => { this.props.Error(error) })
         }
     }
@@ -85,12 +85,13 @@ export default class Ubicacion extends React.Component {
         let fromInputs = Array.from(document.getElementsByName("fromInputs"))
         if (this.state.update) {
             fromInputs[0].value = this.state.dataForUpdate.user.name
-            fromInputs[1].value = this.state.dataForUpdate.user.solapin
-            fromInputs[2].value = this.state.dataForUpdate.grupo
-            fromInputs[3].value = this.state.dataForUpdate.apartamento
+            fromInputs[0].id = this.state.dataForUpdate.user.id
+            fromInputs[1].value = this.state.dataForUpdate.grupo
+            fromInputs[2].value = this.state.dataForUpdate.apartamento
             Balidar(Array.from(fromInputs), true)
         } else {
             Balidar(Array.from(fromInputs), false)
+            fromInputs[0].id = ""
             form.reset()
         }
         if (mostar) {
