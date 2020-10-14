@@ -13,6 +13,7 @@ export default class InputAutocompletar extends React.Component {
         this.filtro = this.filtro.bind(this)
         this.ponerDatos = this.ponerDatos.bind(this)
         this.comprovar = this.comprovar.bind(this)
+        this.acceso = this.acceso.bind(this)
     }
     componentDidMount() {
         if (this.props.url !== undefined) {
@@ -25,7 +26,7 @@ export default class InputAutocompletar extends React.Component {
         if (texto === "") {
             this.setState({ datos: this.state.save })
         } else {
-            let pivote = this.state.save.filter(d => d[this.props.acceso].includes(texto))
+            let pivote = this.state.save.filter(d => this.acceso(d).includes(texto))
             this.setState({ datos: pivote })
         }
     }
@@ -33,7 +34,7 @@ export default class InputAutocompletar extends React.Component {
         if (Number.isInteger(Number.parseInt(i))) {
             let contenedor = document.getElementsByClassName("inputAutocompletar")[0]
             contenedor.id = this.state.datos[i].id
-            contenedor.value = this.state.datos[i][this.props.acceso]
+            contenedor.value = this.acceso(this.state.datos[i])
             if (comprovar) {
                 this.setState({ comprovar: false })
             }
@@ -47,6 +48,13 @@ export default class InputAutocompletar extends React.Component {
             this.setState({ comprovar: true })
         }
     }
+    acceso(json, texto = this.props.acceso) {
+        texto = texto.split(".")
+        while (texto.length !== 0) {
+            json = json[texto.shift()]
+        }
+        return json
+    }
     render() {
         return (
             <Dropdown>
@@ -56,7 +64,7 @@ export default class InputAutocompletar extends React.Component {
                     onFocusCapture={(e) => { this.filtro(e.target.value) }} />
                 <Dropdown.Menu>
                     {this.state.datos.map((dato, i) => (
-                        <Dropdown.Item key={i} eventKey={i} onSelect={(e) => { this.ponerDatos(e) }}>{dato[this.props.acceso]}</Dropdown.Item>
+                        <Dropdown.Item key={i} eventKey={i} onSelect={(e) => { this.ponerDatos(e) }}>{this.acceso(dato)}</Dropdown.Item>
                     ))}
                 </Dropdown.Menu>
             </Dropdown>

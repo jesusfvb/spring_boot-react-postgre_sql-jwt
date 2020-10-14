@@ -47,9 +47,9 @@ export default class Cuarteleria extends React.Component {
     saveData(trarges = []) {
         if (Balidador(trarges)) {
             PUT(this.state.url, {
-                ubicacion: { id: 1 },
-                fecha: trarges[2].value,
-                evaluacion: trarges[3].selectedIndex,
+                ubicacion: { id: trarges[0].id },
+                fecha: trarges[1].value,
+                evaluacion: trarges[2].selectedIndex,
             }).then((mensaje) => { this.loadData(true, false); this.props.Success(mensaje) }).catch(error => { this.props.Error(error.message) })
         } else {
             this.props.Error("Faltan datos por rellenar")
@@ -59,9 +59,9 @@ export default class Cuarteleria extends React.Component {
         const fromInputs = Array.from(document.getElementsByName("fromInputs"))
         GET(this.state.url + "/" + id).then((data) => {
             fromInputs[0].value = data.ubicacion.user.name
-            fromInputs[1].value = data.ubicacion.user.solapin
-            fromInputs[2].value = data.fecha
-            fromInputs[3].value = data.evaluacion
+            fromInputs[0].id = data.ubicacion.id
+            fromInputs[1].value = data.fecha
+            fromInputs[2].value = data.evaluacion
             this.setState({ update: true, idForUpdate: id, dataForUpdate: data })
             Balidar(fromInputs, true)
             this.props.Success("Datos Cargados y Listo para Modificar")
@@ -71,9 +71,9 @@ export default class Cuarteleria extends React.Component {
         if (Balidador(trarges)) {
             POST(this.state.url, {
                 id: this.state.idForUpdate,
-                ubicacion: { id: 1 },
-                fecha: trarges[2].value,
-                evaluacion: trarges[3].selectedIndex,
+                ubicacion: { id: trarges[0].id },
+                fecha: trarges[1].value,
+                evaluacion: trarges[2].selectedIndex,
             }).then((mensaje) => { this.setState({ update: false, idForUpdate: -1, dataForUpdate: null }, this.loadData(true, false)); this.props.Success(mensaje) }).catch(error => { this.props.Error(error) })
         }
     }
@@ -85,12 +85,13 @@ export default class Cuarteleria extends React.Component {
         let fromInputs = Array.from(document.getElementsByName("fromInputs"))
         if (this.state.update) {
             fromInputs[0].value = this.state.dataForUpdate.ubicacion.user.name
-            fromInputs[1].value = this.state.dataForUpdate.ubicacion.user.solapin
-            fromInputs[2].value = this.state.dataForUpdate.fecha
-            fromInputs[3].value = this.state.dataForUpdate.evaluacion
+            fromInputs[0].id = this.state.dataForUpdate.ubicacion.id
+            fromInputs[1].value = this.state.dataForUpdate.fecha
+            fromInputs[2].value = this.state.dataForUpdate.evaluacion
             Balidar(Array.from(fromInputs), true)
         } else {
-            Balidar([fromInputs[0], fromInputs[1], fromInputs[2]], false);
+            Balidar([fromInputs[0], fromInputs[1]], false);
+            fromInputs[0].id = ""
             form.reset()
         }
         if (mostar) {
