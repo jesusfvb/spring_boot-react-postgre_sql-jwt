@@ -58,7 +58,7 @@ export default class Guardia extends React.Component {
     saveData(trarges = []) {
         if (Balidador(trarges)) {
             PUT(this.state.url, {
-                representante: { id: 72 },
+                representante: { id: trarges[0].id },
                 ubicacion: trarges[1].selectedIndex,
                 fecha: trarges[2].value,
                 inicio: trarges[3].value,
@@ -72,6 +72,7 @@ export default class Guardia extends React.Component {
         const fromInputs = Array.from(document.getElementsByName("fromInputs"))
         GET(this.state.url + "/" + id).then((data) => {
             fromInputs[0].value = data.representante.name
+            fromInputs[0].id = data.representante.id
             fromInputs[1].value = data.ubicacion
             fromInputs[2].value = data.fecha
             fromInputs[3].value = data.inicio
@@ -85,7 +86,7 @@ export default class Guardia extends React.Component {
         if (Balidador(trarges)) {
             POST(this.state.url, {
                 id: this.state.idForUpdate,
-                representante: { id: 72 },
+                representante: { id: trarges[0].id, },
                 ubicacion: trarges[1].selectedIndex,
                 fecha: trarges[2].value,
                 inicio: trarges[3].value,
@@ -105,10 +106,12 @@ export default class Guardia extends React.Component {
         if (this.state.update) {
             if (this.state.acceder) {
                 fromInputs[0].value = this.state.dataForUpdate.name
+                fromInputs[0].id = this.state.dataForUpdate.id
                 fromInputs[1].value = this.state.dataForUpdate.evaluacion
             }
             else {
                 fromInputs[0].value = this.state.dataForUpdate.representante.name
+                fromInputs[0].id = this.state.dataForUpdate.representante.id
                 fromInputs[1].value = this.state.dataForUpdate.ubicacion
                 fromInputs[2].value = this.state.dataForUpdate.fecha
                 fromInputs[3].value = this.state.dataForUpdate.inicio
@@ -121,6 +124,7 @@ export default class Guardia extends React.Component {
             } else {
                 Balidar([fromInputs[0], fromInputs[2], fromInputs[3], fromInputs[4]], false);
             }
+            fromInputs[0].id = ""
             form.reset()
         }
         if (mostar) {
@@ -135,7 +139,7 @@ export default class Guardia extends React.Component {
         }
     }
     acceder(data) {
-        this.setState({ acceder: true, dataForAcceder: data })
+        this.setState({ acceder: true, dataForAcceder: data, update: false, idForUpdate: -1, dataForUpdate: null })
     }
     advertencia(target) {
         let pivote = this.state.dataForAcceder
@@ -145,7 +149,7 @@ export default class Guardia extends React.Component {
     saveIntegrantes(trarges = []) {
         if (Balidador(trarges)) {
             let pivote = this.state.dataForAcceder
-            pivote.integrantes.push({ id: 72 })
+            pivote.integrantes.push({ id: trarges[0].id })
             if (pivote.evaluaciones === null) {
                 pivote.evaluaciones = [trarges[1].selectedIndex]
             }
@@ -181,6 +185,7 @@ export default class Guardia extends React.Component {
     getIntegrantesForUpdate(i) {
         const fromInputs = Array.from(document.getElementsByName("fromInputs"))
         fromInputs[0].value = this.state.dataForAcceder.integrantes[i].name
+        fromInputs[0].id = this.state.dataForAcceder.integrantes[i].id
         fromInputs[1].value = this.state.dataForAcceder.evaluaciones[i]
         Balidar(fromInputs, true)
         this.setState({ update: true, idForUpdate: i, dataForUpdate: { name: this.state.dataForAcceder.integrantes[i].name, evaluacion: this.state.dataForAcceder.evaluaciones[i] } })
@@ -189,7 +194,7 @@ export default class Guardia extends React.Component {
     updateIntegrantes(trarges = []) {
         if (Balidador(trarges)) {
             let pivote = this.state.dataForAcceder
-            pivote.integrantes[this.state.idForUpdate] = { id: 72 }
+            pivote.integrantes[this.state.idForUpdate] = { id: trarges[0].id }
             pivote.evaluaciones[this.state.idForUpdate] = trarges[1].selectedIndex
             this.canselUpdate()
             this.updateAccediendo(pivote)
@@ -226,7 +231,7 @@ export default class Guardia extends React.Component {
                                 + " | " + this.state.dataForAcceder.inicio + " | " + this.state.dataForAcceder.fin} disabled />
                         }
                         <InputGroup.Append>
-                    <Button onClick={(e) => { if (!this.state.acceder) { e.target.parentElement.previousElementSibling.value = "" }; this.loadData() }}> {(this.state.acceder)?"<--":"X"}</Button>
+                            <Button onClick={(e) => { if (!this.state.acceder) { e.target.parentElement.previousElementSibling.value = "" }; this.loadData() }}> {(this.state.acceder) ? "<--" : "X"}</Button>
                         </InputGroup.Append>
                         <InputGroup.Append>
                             <Button variant="danger" onClick={(e) => { (this.state.acceder) ? this.deleteIntegrantes([]) : this.deleteData([]) }}>Borrar</Button>

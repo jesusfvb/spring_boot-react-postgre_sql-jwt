@@ -1,13 +1,15 @@
 import React from 'react'
 import { Form, Col, Button } from 'react-bootstrap'
 import { Name } from '../Balidaciones';
-const GuardiaFormAcceder = ({ saveIntegrante, update = false, updateData, onCansel, onAdvertencia, advertencia="" }) => {
+import InputAutocompletar from '../InputAutocompletar';
+
+const GuardiaFormAcceder = ({ saveIntegrante, update = false, updateData, onCansel, onAdvertencia, advertencia = "" }) => {
     return (
         <>
-            <Form className="mt-1" autoComplete="of" onSubmit={(e) => { e.preventDefault(); if (!update) { saveIntegrante(Array.from(e.target)) } else { updateData(Array.from(e.target)) } }}>
+            <Form className="mt-1" autoComplete="off" onSubmit={(e) => { e.preventDefault(); if (!update) { saveIntegrante(Array.from(e.target)) } else { updateData(Array.from(e.target)) } }}>
                 <Form.Group as={Col}>
                     <Form.Label>Integrante</Form.Label>
-                    <Form.Control name="fromInputs" placeholder="Escriba el Nombre" isInvalid onChange={(e) => { Name(e.target) }} />
+                    <InputAutocompletar url="/users" acceso="name" name="fromInputs" placeholder="Escriba el Nombre" isInvalid onChange={(e) => { Name(e.target) }} />
                 </Form.Group>
 
                 <Form.Group as={Col}>
@@ -29,7 +31,7 @@ const GuardiaFormAcceder = ({ saveIntegrante, update = false, updateData, onCans
             <Form className="mt-1" autoComplete="of" onSubmit={(e) => { e.preventDefault(); onAdvertencia(e.target[0]) }}>
                 <Form.Group>
                     <Form.Label>Advertencia</Form.Label>
-                    <Form.Control as="textarea" rows="5" defaultValue={advertencia}/>
+                    <Form.Control as="textarea" rows="5" defaultValue={advertencia} />
                 </Form.Group>
                 <Col className="text-right">
                     <Button className="ml-3" variant="success" type="submit"> Aceptar </Button>

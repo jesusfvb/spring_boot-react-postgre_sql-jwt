@@ -1,12 +1,14 @@
 import React from 'react'
 import { Form, Col, Button } from 'react-bootstrap'
 import { Name, Fecha } from '../Balidaciones';
+import InputAutocompletar from '../InputAutocompletar';
+
 const GuardiaForm = ({ saveData, update = false, updateData, onCansel }) => {
     return (
-        <Form className="mt-1" autoComplete="of" onSubmit={(e) => { e.preventDefault(); if (!update) { saveData(Array.from(e.target)) } else { updateData(Array.from(e.target)) } }}>
+        <Form className="mt-1" autoComplete="off" onSubmit={(e) => { e.preventDefault(); if (!update) { saveData(Array.from(e.target)) } else { updateData(Array.from(e.target)) } }}>
             <Form.Group as={Col}>
                 <Form.Label>Representante</Form.Label>
-                <Form.Control name="fromInputs" placeholder="Escriba el Nombre" isInvalid onChange={(e) => { Name(e.target) }} />
+                <InputAutocompletar url="/users" acceso="name" name="fromInputs" placeholder="Escriba el Nombre" isInvalid onChange={(e) => { Name(e.target) }} />
             </Form.Group>
 
             <Form.Group as={Col}>
