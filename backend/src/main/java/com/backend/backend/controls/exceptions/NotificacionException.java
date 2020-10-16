@@ -3,20 +3,20 @@ package com.backend.backend.controls.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-public class GuardiaException extends RuntimeException {
+public class NotificacionException extends RuntimeException {
     /**
      *
      */
 
     private HttpStatus status;
 
-    public GuardiaException(String message) {
-        super("GuardiaException: " + message);
+    public NotificacionException(String message) {
+        super("NotificacionException: " + message);
         status = HttpStatus.INTERNAL_SERVER_ERROR;
     }
 
-    public GuardiaException(String message, HttpStatus status) {
-        super("GuardiaException: " + message);
+    public NotificacionException(String message, HttpStatus status) {
+        super("NotificacionException: " + message);
         this.status = status;
     }
 

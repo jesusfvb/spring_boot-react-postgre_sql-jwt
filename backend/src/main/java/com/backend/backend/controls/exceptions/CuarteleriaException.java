@@ -11,12 +11,12 @@ public class CuarteleriaException extends RuntimeException {
     private HttpStatus status;
 
     public CuarteleriaException(String message) {
-        super("UbicacionException: " + message);
+        super("CuarteleriaException: " + message);
         status = HttpStatus.INTERNAL_SERVER_ERROR;
     }
 
     public CuarteleriaException(String message, HttpStatus status) {
-        super("UbicacionException: " + message);
+        super("CuarteleriaException: " + message);
         this.status = status;
     }
 

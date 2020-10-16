@@ -1,5 +1,6 @@
 import React from 'react'
-import { Col, Nav, Navbar, NavDropdown } from 'react-bootstrap'
+import { Col, Form, Nav, Navbar, NavDropdown } from 'react-bootstrap'
+import Notificacion from './Notificacion'
 const NavBar = () => {
     return (
         <Col className="p-0 mb-3">
@@ -18,6 +19,9 @@ const NavBar = () => {
                             <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
+                    <Form inline>
+                        <Notificacion />
+                    </Form>
                     <Nav>
                         <Nav.Link href="#deets">More deets</Nav.Link>
                         <Nav.Link eventKey={2} href="#memes">

@@ -52,7 +52,7 @@ class App extends React.Component {
       return (
          <Container fluid >
             <Row>
-               <NavBar />
+               <NavBar  Error={this.Error}  Success={this.Success} />
             </Row>
             <Row>
                {/* <Home/> */}
