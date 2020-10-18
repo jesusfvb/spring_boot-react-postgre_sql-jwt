@@ -1,12 +1,12 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Alert, Container, Row } from 'react-bootstrap'
-
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import NavBar from './components/NavBar'
-// import Home from './components/Home'
-// import Users from './components/Users'
-// import Ubicacion from './components/Ubicacion'
-// import Cuarteleria from './components/Cuarteleria'
+import Home from './components/Home'
+import Users from './components/Users'
+import Ubicacion from './components/Ubicacion'
+import Cuarteleria from './components/Cuarteleria'
 import Guardia from './components/Guardia'
 
 class App extends React.Component {
@@ -50,24 +50,28 @@ class App extends React.Component {
    }
    render() {
       return (
-         <Container fluid >
-            <Row>
-               <NavBar  Error={this.Error}  Success={this.Success} />
-            </Row>
-            <Row>
-               {/* <Home/> */}
-               {/* <Users Error={this.Error}  Success={this.Success}/> */}
-               {/* <Cuarteleria Error={this.Error}  Success={this.Success}/> */}
-               {/* <Ubicacion Error={this.Error}  Success={this.Success}/> */}
-               <Guardia Error={this.Error}  Success={this.Success}/>
-            </Row>
-            <Row>
-               {/* Aqui va el Footer */}
-            </Row>
-            <div id="containerAlert">
-               {this.state.alerts}
-            </div>
-         </Container>
+         <BrowserRouter>
+            <Container fluid >
+               <Row>
+                  <NavBar Error={this.Error} Success={this.Success} />
+               </Row>
+               <Row>
+                  <Switch>
+                     <Route path="/" exact component={Home} />
+                     <Route path="/usuarios" exact render={() => <Users Error={this.Error} Success={this.Success} />} />
+                     <Route path="/cuarteleria" exact render={() => <Cuarteleria Error={this.Error} Success={this.Success} />} />
+                     <Route path="/ubicacion" exact render={() => <Ubicacion Error={this.Error} Success={this.Success} />} />
+                     <Route path="/guardia" exact render={() => <Guardia Error={this.Error} Success={this.Success} />} />
+                  </Switch>
+               </Row>
+               <Row>
+                  {/* Aqui va el Footer */}
+               </Row>
+               <div id="containerAlert">
+                  {this.state.alerts}
+               </div>
+            </Container>
+         </BrowserRouter>
       )
 
    }
