@@ -15,4 +15,5 @@ public interface UsersImplementation extends JpaRepository<Users,Integer> {
     @Query("select u from Users u where u.seach like %?1% order by u.name")
     List<Users> searchUser(String text);
 
+    Users findByUserName(String userName);
 }
