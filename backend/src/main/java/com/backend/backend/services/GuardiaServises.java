@@ -11,6 +11,10 @@ public interface GuardiaServises {
 
     List<Guardia> allGuardia();
 
+    List<Guardia> allGuardiadByUserName(String usrName);
+
+    List<Guardia> allGuardiadByUserNameEstudiante(String usrName);
+
     List<Guardia> searchGuardia(String text);
 
     Guardia findGuardiaById(Integer id);

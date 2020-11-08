@@ -22,6 +22,22 @@ public class UsersControls {
         return new ResponseEntity<>(servises.allUsers(), HttpStatus.OK);
     }
 
+    @GetMapping("/noubicados")
+    private ResponseEntity<List<Users>> listNoUbicados() {
+        return new ResponseEntity<>(servises.allUsersNoUbicados(), HttpStatus.OK);
+
+    }
+
+    @GetMapping("/profesores")
+    private ResponseEntity<List<Users>> listProfesores() {
+        return new ResponseEntity<>(servises.allProfesores(), HttpStatus.OK);
+    }
+
+    @GetMapping("/estudiantes")
+    private ResponseEntity<List<Users>> listEstudiantes() {
+        return new ResponseEntity<>(servises.allEstudiantes(), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     private ResponseEntity<Users> findById(@PathVariable Integer id) {
         return new ResponseEntity<>(servises.findUserById(id), HttpStatus.OK);

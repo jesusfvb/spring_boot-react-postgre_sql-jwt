@@ -85,7 +85,7 @@ export default class Users extends React.Component {
         this.setState({ update: false, idForUpdate: -1, dataForUpdate: null }, () => { this.resetForm("Listo para Añadir") })
     }
     resetForm(mensaje = "Formulario Resetiado", mostar = true) {
-        let form = document.getElementsByTagName("form")[0]
+        let form = document.getElementsByTagName("form")[1]
         let fromInputs = Array.from(document.getElementsByName("fromInputs"))
         if (this.state.update) {
             fromInputs[0].value = this.state.dataForUpdate.name

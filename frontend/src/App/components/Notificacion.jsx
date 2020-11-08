@@ -64,9 +64,11 @@ export default class Notificacion extends React.Component {
             form = form[0]
         }
         let fromInputs = Array.from(document.getElementsByName("fromInputsN"))
-        Balidar([fromInputs[0]], false);
-        fromInputs[0].id = ""
-        form.reset()
+        if (fromInputs.length !== 0) {
+            Balidar([fromInputs[0]], false);
+            fromInputs[0].id = ""
+            form.reset()
+        }
     }
     render() {
         return (

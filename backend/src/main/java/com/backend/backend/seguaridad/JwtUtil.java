@@ -14,10 +14,12 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class JwtUtil {
-    private final String SECRET_KEY = "jesus";
+    private final String SECRET_KEY = "GRDE";
 
     public String extractUserName(String token) {
-        return extractClaim(token, Claims::getSubject);
+        String salida = extractClaim(token, Claims::getSubject);
+        salida = salida.substring(0, salida.indexOf("ROLE"));
+        return salida;
     }
 
     public Date extractExpiration(String token) {
@@ -26,7 +28,7 @@ public class JwtUtil {
 
     public String geberateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        return createToken(claims, userDetails.getUsername() + userDetails.getAuthorities().toArray()[0].toString());
     }
 
     public Boolean isTokenExpired(String token) {

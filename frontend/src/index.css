@@ -1,0 +1,9 @@
+.home {
+    text-decoration: none !important;
+     color: black !important; 
+}
+.homeDisable{
+    cursor: no-drop;
+    color:rgba(255,255,255,.25) !important;
+    background-color:#1f2525; 
+}

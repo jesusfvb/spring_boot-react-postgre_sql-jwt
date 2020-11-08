@@ -8,10 +8,14 @@ import com.backend.backend.repositorys.Users;
 import com.backend.backend.repositorys.UsersImplementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UsersServicesImplementation implements UsersServises {
+
+    PasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Autowired
     private UsersImplementation repository;
@@ -42,7 +46,7 @@ public class UsersServicesImplementation implements UsersServises {
         } else if (user.getId() != null) {
             throw new UserException("saveUser1");
         } else {
-            // Aqui va lo de encriptar la contraseña
+            user.setPassword(encoder.encode(user.getPassword()));
             user.addOrUpdateSerch();
             repository.save(user);
         }
@@ -66,5 +70,20 @@ public class UsersServicesImplementation implements UsersServises {
     @Override
     public void deleteUsers(Integer[] ids) {
         repository.deleteAll(repository.findAllById(Arrays.asList(ids)));
+    }
+
+    @Override
+    public List<Users> allUsersNoUbicados() {
+        return repository.allNoUbicados();
+    }
+
+    @Override
+    public List<Users> allProfesores() {
+        return repository.allProfesores();
+    }
+
+    @Override
+    public List<Users> allEstudiantes() {
+        return repository.allEstudiantes();
     }
 }

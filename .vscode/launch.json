@@ -2,13 +2,20 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-BackendApplication<backend>",
+            "name": "backend",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
             "mainClass": "com.backend.backend.BackendApplication",
             "projectName": "backend",
             "args": ""
+        },
+        {
+            "command": "yarn start",
+            "name": "frontend",
+            "request": "launch",
+            "type": "node-terminal",
+            "cwd": "${workspaceFolder}/frontend"
         }
     ]
 }

@@ -8,15 +8,30 @@ import Users from './components/Users'
 import Ubicacion from './components/Ubicacion'
 import Cuarteleria from './components/Cuarteleria'
 import Guardia from './components/Guardia'
-
+import Loggin from './components/Loggin'
 class App extends React.Component {
    constructor(props) {
       super(props)
       this.state = {
-         alerts: []
+         alerts: [],
+         loggin: false,
+         username: undefined,
+         rol: undefined
       }
       this.Error = this.Error.bind(this)
       this.Success = this.Success.bind(this)
+      this.Autenticarse = this.Autenticarse.bind(this)
+      this.Salir = this.Salir.bind(this)
+   }
+   componentDidMount() {
+      if (this.state.loggin === false) {
+         let Jwt = window.sessionStorage.getItem("Jwt");
+         if (!(Jwt === undefined || Jwt === null)) {
+            var jwt = require('jsonwebtoken');
+            let sub = jwt.decode(Jwt).sub;
+            this.setState({ loggin: true, username: sub.substring(0, sub.indexOf("ROLE")), rol: sub.substring(sub.indexOf("ROLE"), sub.length) })
+         }
+      }
    }
    Error(mensaje = "") {
       let pivote = this.state.alerts
@@ -48,32 +63,55 @@ class App extends React.Component {
          }, 5000)
       })
    }
+   Autenticarse(Jwt) {
+      window.sessionStorage.setItem("Jwt", Jwt)
+      var jwt = require('jsonwebtoken');
+      let sub = jwt.decode(Jwt).sub;
+      this.setState({ loggin: true, username: sub.substring(0, sub.indexOf("ROLE")), rol: sub.substring(sub.indexOf("ROLE"), sub.length) })
+   }
+   Salir() {
+      window.sessionStorage.clear()
+      this.setState({ loggin: false })
+   }
    render() {
-      return (
-         <BrowserRouter>
-            <Container fluid >
-               <Row>
-                  <NavBar Error={this.Error} Success={this.Success} />
-               </Row>
-               <Row>
-                  <Switch>
-                     <Route path="/" exact component={Home} />
-                     <Route path="/usuarios" exact render={() => <Users Error={this.Error} Success={this.Success} />} />
-                     <Route path="/cuarteleria" exact render={() => <Cuarteleria Error={this.Error} Success={this.Success} />} />
-                     <Route path="/ubicacion" exact render={() => <Ubicacion Error={this.Error} Success={this.Success} />} />
-                     <Route path="/guardia" exact render={() => <Guardia Error={this.Error} Success={this.Success} />} />
-                  </Switch>
-               </Row>
-               <Row>
-                  {/* Aqui va el Footer */}
-               </Row>
-               <div id="containerAlert">
-                  {this.state.alerts}
-               </div>
-            </Container>
-         </BrowserRouter>
-      )
-
+      if (!this.state.loggin) {
+         return (
+            <Loggin onAutenticarse={this.Autenticarse} />
+         )
+      } else {
+         return (
+            <BrowserRouter>
+               <Container fluid >
+                  <Row>
+                     <NavBar Error={this.Error} Success={this.Success} Salir={this.Salir} userName={this.state.username} rol={this.state.rol} />
+                  </Row>
+                  <Row>
+                     <Switch>
+                        <Route path="/" exact render={() => <Home rol={this.state.rol} />} />
+                        {(this.state.rol === "ROLE_ADMINISTRADOR") ?
+                           <Route path="/usuarios" exact render={() => <Users Error={this.Error} Success={this.Success} rol={this.state.rol} />} />
+                           : ""}
+                        {(this.state.rol === "ROLE_ADMINISTRADOR" || this.state.rol === "ROLE_VICDECEXTENCION" || this.state.rol === "ROLE_INTRUCTURA" || this.state.rol === "ROLE_ESTUDIANTE") ?
+                           <Route path="/cuarteleria" exact render={() => <Cuarteleria Error={this.Error} Success={this.Success} rol={this.state.rol} userName={this.state.username} />} />
+                           : ""}
+                        {(this.state.rol === "ROLE_ADMINISTRADOR" || this.state.rol === "ROLE_DRRECIDENCE" || this.state.rol === "ROLE_VICDECEXTENCION" || this.state.rol === "ROLE_ESTUDIANTE") ?
+                           < Route path="/ubicacion" exact render={() => <Ubicacion Error={this.Error} Success={this.Success} rol={this.state.rol} />} />
+                           : ""}
+                        {(this.state.rol === "ROLE_ADMINISTRADOR" || this.state.rol === "ROLE_VICDECEXTENCION" || this.state.rol === "ROLE_PROFESOR" || this.state.rol === "ROLE_ESTUDIANTE") ?
+                           < Route path="/guardia" exact render={() => <Guardia Error={this.Error} Success={this.Success} rol={this.state.rol} userName={this.state.username} />} />
+                           : ""}
+                     </Switch>
+                  </Row>
+                  <Row>
+                     {/* Aqui va el Footer */}
+                  </Row>
+                  <div id="containerAlert">
+                     {this.state.alerts}
+                  </div>
+               </Container>
+            </BrowserRouter>
+         )
+      }
    }
 }
 export default App

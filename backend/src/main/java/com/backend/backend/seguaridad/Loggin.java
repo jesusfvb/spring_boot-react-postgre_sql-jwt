@@ -21,7 +21,7 @@ public class Loggin {
 
     @Autowired
     private UserDetailsServiceI detailsServiceI;
-    
+
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -35,8 +35,8 @@ public class Loggin {
             throw new Exception("Usuario o Contraseña Incorrecta", e);
         }
         final UserDetails userDetails = detailsServiceI.loadUserByUsername(authenticationRequest.getUserName());
-
         final String jwt = jwtUtil.geberateToken(userDetails);
+       
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 }

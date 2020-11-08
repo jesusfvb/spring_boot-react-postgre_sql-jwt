@@ -15,4 +15,7 @@ public interface UbicacionImplementation extends JpaRepository< Ubicacion,Intege
     @Query("select u from Ubicacion u where u.seach like %?1% order by u.user.name")
     List<Ubicacion> searchUbicacion(String text);
 
+    @Query("select u from Ubicacion u where u.user.id in (select us.id from Users us where us.rol= 5)")
+    List<Ubicacion> allEstudiantes();
+
 }

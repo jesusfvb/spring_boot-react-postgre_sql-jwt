@@ -8,7 +8,7 @@ const CuarteleriaForm = ({ saveData, update = false, updateData, onCansel }) => 
         <Form className="mt-1" autoComplete="off" onSubmit={(e) => { e.preventDefault(); if (!update) { saveData(Array.from(e.target)) } else { updateData(Array.from(e.target)) } }}>
             <Form.Group as={Col}>
                 <Form.Label>Nombre</Form.Label>
-                <InputAutocompletar url="/ubicacion" acceso="user.name" name="fromInputs" placeholder="Escriba el Nombre" isInvalid onChange={(e) => { Name(e.target) }} />
+                <InputAutocompletar url="/ubicacion/estudiantes" acceso="user.name" name="fromInputs" placeholder="Escriba el Nombre" isInvalid onChange={(e) => { Name(e.target) }} />
             </Form.Group>
 
             <Form.Group as={Col}>

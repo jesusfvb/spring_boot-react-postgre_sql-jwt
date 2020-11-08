@@ -1,10 +1,20 @@
 export const server = "http://localhost:8080"
 
+function jwt(header) {
+    let jwt = window.sessionStorage.getItem("Jwt");
+    if (!(jwt === undefined || jwt === null)) {
+        header.append("Authorization", jwt);
+    }
+}
 export const GET = (url) => {
     return new Promise((resolve, reject) => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        jwt(myHeaders)
         const requestOptions = {
             method: 'GET',
-            redirect: 'follow'
+            redirect: 'follow',
+            headers: myHeaders
         };
 
         let status = null
@@ -29,10 +39,11 @@ export const GET = (url) => {
             .catch(error => reject(error));
     })
 }
-export const DELETE = (url,data) => {
+export const DELETE = (url, data) => {
     return new Promise((resolve, reject) => {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
+        jwt(myHeaders)
 
         var raw = JSON.stringify(data);
 
@@ -65,11 +76,11 @@ export const DELETE = (url,data) => {
             .catch(error => reject(error));
     })
 }
-export const PUT = (url,data) => {
+export const PUT = (url, data) => {
     return new Promise((resolve, reject) => {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-
+        jwt(myHeaders)
         var raw = JSON.stringify(data);
 
         var requestOptions = {
@@ -101,11 +112,11 @@ export const PUT = (url,data) => {
             .catch(error => reject(error));
     })
 }
-export const POST = (url,data) => {
+export const POST = (url, data) => {
     return new Promise((resolve, reject) => {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-
+        jwt(myHeaders)
         var raw = JSON.stringify(data);
 
         var requestOptions = {
@@ -141,7 +152,7 @@ export const PATCH = (url) => {
     return new Promise((resolve, reject) => {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-
+        jwt(myHeaders)
         var requestOptions = {
             method: 'PATCH',
             headers: myHeaders,

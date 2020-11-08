@@ -27,7 +27,11 @@ export default class Cuarteleria extends React.Component {
         this.loadData()
     }
     loadData(resetForm = true, menssge = true) {
-        GET(this.state.url).then(resul => { this.setState({ datos: resul }); if (resetForm) { this.resetForm("Datos Cargados", menssge) } }).catch(error => { this.props.Error(error.message) })
+        let usenName = ""
+        if (this.props.rol === "ROLE_ESTUDIANTE") {
+            usenName = "/all/" + this.props.userName
+        }
+        GET(this.state.url + usenName).then(resul => { this.setState({ datos: resul }); if (resetForm) { this.resetForm("Datos Cargados", menssge) } }).catch(error => { this.props.Error(error.message) })
     }
     deleteData(ids = []) {
         let resetChecboxs = false
@@ -81,21 +85,23 @@ export default class Cuarteleria extends React.Component {
         this.setState({ update: false, idForUpdate: -1, dataForUpdate: null }, () => { this.resetForm("Listo para Añadir") })
     }
     resetForm(mensaje = "Formulario Resetiado", mostar = true) {
-        let form = document.getElementsByTagName("form")[0]
+        let form = document.getElementsByTagName("form")[1]
         let fromInputs = Array.from(document.getElementsByName("fromInputs"))
-        if (this.state.update) {
-            fromInputs[0].value = this.state.dataForUpdate.ubicacion.user.name
-            fromInputs[0].id = this.state.dataForUpdate.ubicacion.id
-            fromInputs[1].value = this.state.dataForUpdate.fecha
-            fromInputs[2].value = this.state.dataForUpdate.evaluacion
-            Balidar(Array.from(fromInputs), true)
-        } else {
-            Balidar([fromInputs[0], fromInputs[1]], false);
-            fromInputs[0].id = ""
-            form.reset()
-        }
-        if (mostar) {
-            this.props.Success(mensaje)
+        if (form !== undefined && fromInputs.length > 0) {
+            if (this.state.update) {
+                fromInputs[0].value = this.state.dataForUpdate.ubicacion.user.name
+                fromInputs[0].id = this.state.dataForUpdate.ubicacion.id
+                fromInputs[1].value = this.state.dataForUpdate.fecha
+                fromInputs[2].value = this.state.dataForUpdate.evaluacion
+                Balidar(Array.from(fromInputs), true)
+            } else {
+                Balidar([fromInputs[0], fromInputs[1]], false);
+                fromInputs[0].id = ""
+                form.reset()
+            }
+            if (mostar) {
+                this.props.Success(mensaje)
+            }
         }
     }
     searchData(text) {
@@ -107,24 +113,27 @@ export default class Cuarteleria extends React.Component {
     }
     render() {
         return (
-            <>
+            <> {(this.props.rol === "ROLE_VICDECEXTENCION" || this.props.rol === "ROLE_ESTUDIANTE") ? "" :
                 <Col xs="3" className="border-right border-top">
                     <Alert className="mt-2" variant="dark">
                         <h3>{(!this.state.update) ? "Añadir" : "Modifica"} Cuarteleria <Button className="float-right mt-2" size="sm" variant="danger" onClick={() => { this.resetForm() }}>RESET</Button></h3>
-                        <CuarteleriaForm saveData={this.saveData} update={this.state.update} updateData={this.updateData} onCansel={this.canselUpdate} />
+                        <CuarteleriaForm saveData={this.saveData} update={this.state.update} updateData={this.updateData} onCansel={this.canselUpdate} rol={this.props.rol} />
                     </Alert>
                 </Col>
+            }
                 <Col className="border-top">
                     <InputGroup className="mb-3 mt-2">
                         <FormControl placeholder="Escriva el Filtro(Si se deja vacio se Actualizara Los Datos) y Precione Enter para Filtrar" onKeyPress={(e) => { if (e.key === "Enter") { this.searchData(e.target.value) } }} />
                         <InputGroup.Append>
                             <Button onClick={(e) => { e.target.parentElement.previousElementSibling.value = ""; this.loadData() }}>X</Button>
                         </InputGroup.Append>
-                        <InputGroup.Append>
-                            <Button variant="danger" onClick={(e) => { this.deleteData([]) }}>Borrar</Button>
-                        </InputGroup.Append>
+                        {(this.props.rol === "ROLE_VICDECEXTENCION" || this.props.rol === "ROLE_ESTUDIANTE") ? "" :
+                            <InputGroup.Append>
+                                <Button variant="danger" onClick={(e) => { this.deleteData([]) }}>Borrar</Button>
+                            </InputGroup.Append>
+                        }
                     </InputGroup>
-                    <CuarteleriaTable datos={this.state.datos} onDelete={this.deleteData} onUpdate={this.getDataForUpdate} />
+                    <CuarteleriaTable datos={this.state.datos} onDelete={this.deleteData} onUpdate={this.getDataForUpdate} rol={this.props.rol} />
                 </Col>
             </>
         )

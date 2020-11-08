@@ -32,6 +32,11 @@ public class CuarteliaControls {
         return new ResponseEntity<>(servises.allCuarteleria(), HttpStatus.OK);
     }
 
+    @GetMapping("/all/{userName}")
+    private ResponseEntity<List<Cuarteleria>> listAllUserName(@PathVariable String userName) {
+        return new ResponseEntity<>(servises.allCuarteleriaUserName(userName), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     private ResponseEntity<Cuarteleria> findById(@PathVariable Integer id) {
         return new ResponseEntity<>(servises.findCuarteleriaById(id), HttpStatus.OK);

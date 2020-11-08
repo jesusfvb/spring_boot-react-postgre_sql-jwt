@@ -31,6 +31,11 @@ public class UbicacionControls {
         return new ResponseEntity<>(servises.allUbicacion(), HttpStatus.OK);
     }
 
+    @GetMapping("/estudiantes")
+    private ResponseEntity<List<Ubicacion>> listEstudiantes() {
+        return new ResponseEntity<>(servises.allUbicacionEstudiantes(), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     private ResponseEntity<Ubicacion> findById(@PathVariable Integer id) {
         return new ResponseEntity<>(servises.findUbicacionById(id), HttpStatus.OK);

@@ -11,6 +11,12 @@ public interface UsersServises {
 
     List<Users> allUsers();
 
+    List<Users> allUsersNoUbicados();
+
+    List<Users> allProfesores();
+
+    List<Users> allEstudiantes();
+
     List<Users> searchUsers(String text);
 
     Users findUserById(Integer id);

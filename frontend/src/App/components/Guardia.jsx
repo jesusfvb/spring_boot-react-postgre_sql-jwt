@@ -38,7 +38,14 @@ export default class Guardia extends React.Component {
         this.loadData()
     }
     loadData(resetForm = true, menssge = true) {
-        GET(this.state.url).then(resul => { this.setState({ datos: resul, acceder: false }); if (resetForm) { this.resetForm("Datos Cargados", menssge) } }).catch(error => { this.props.Error(error.message) })
+        let usrName = ""
+        if (this.props.rol === "ROLE_PROFESOR") {
+            usrName = "/represenate/" + this.props.userName
+        }
+        if (this.props.rol === "ROLE_ESTUDIANTE") {
+            usrName = "/estudiante/" + this.props.userName
+        }
+        GET(this.state.url + usrName).then(resul => { this.setState({ datos: resul, acceder: false }); if (resetForm) { this.resetForm("Datos Cargados", menssge) } }).catch(error => { this.props.Error(error.message) })
     }
     deleteData(ids = []) {
         let resetChecboxs = false
@@ -101,34 +108,36 @@ export default class Guardia extends React.Component {
         this.setState({ update: false, idForUpdate: -1, dataForUpdate: null }, () => { this.resetForm("Listo para Añadir") })
     }
     resetForm(mensaje = "Formulario Resetiado", mostar = true) {
-        let form = document.getElementsByTagName("form")[0]
+        let form = document.getElementsByTagName("form")[1]
         let fromInputs = Array.from(document.getElementsByName("fromInputs"))
-        if (this.state.update) {
-            if (this.state.acceder) {
-                fromInputs[0].value = this.state.dataForUpdate.name
-                fromInputs[0].id = this.state.dataForUpdate.id
-                fromInputs[1].value = this.state.dataForUpdate.evaluacion
-            }
-            else {
-                fromInputs[0].value = this.state.dataForUpdate.representante.name
-                fromInputs[0].id = this.state.dataForUpdate.representante.id
-                fromInputs[1].value = this.state.dataForUpdate.ubicacion
-                fromInputs[2].value = this.state.dataForUpdate.fecha
-                fromInputs[3].value = this.state.dataForUpdate.inicio
-                fromInputs[4].value = this.state.dataForUpdate.fin
-            }
-            Balidar(Array.from(fromInputs), true)
-        } else {
-            if (this.state.acceder) {
-                Balidar([fromInputs[0]], false);
+        if (form !== undefined && fromInputs.length > 0) {
+            if (this.state.update) {
+                if (this.state.acceder) {
+                    fromInputs[0].value = this.state.dataForUpdate.name
+                    fromInputs[0].id = this.state.dataForUpdate.id
+                    fromInputs[1].value = this.state.dataForUpdate.evaluacion
+                }
+                else {
+                    fromInputs[0].value = this.state.dataForUpdate.representante.name
+                    fromInputs[0].id = this.state.dataForUpdate.representante.id
+                    fromInputs[1].value = this.state.dataForUpdate.ubicacion
+                    fromInputs[2].value = this.state.dataForUpdate.fecha
+                    fromInputs[3].value = this.state.dataForUpdate.inicio
+                    fromInputs[4].value = this.state.dataForUpdate.fin
+                }
+                Balidar(Array.from(fromInputs), true)
             } else {
-                Balidar([fromInputs[0], fromInputs[2], fromInputs[3], fromInputs[4]], false);
+                if (this.state.acceder) {
+                    Balidar([fromInputs[0]], false);
+                } else {
+                    Balidar([fromInputs[0], fromInputs[2], fromInputs[3], fromInputs[4]], false);
+                }
+                fromInputs[0].id = ""
+                form.reset()
             }
-            fromInputs[0].id = ""
-            form.reset()
-        }
-        if (mostar) {
-            this.props.Success(mensaje)
+            if (mostar) {
+                this.props.Success(mensaje)
+            }
         }
     }
     searchData(text) {
@@ -213,15 +222,27 @@ export default class Guardia extends React.Component {
     render() {
         return (
             <>
-                <Col xs="3" className="border-right border-top">
-                    <Alert className="mt-2" variant="dark">
-                        <h3>{(!this.state.update) ? "Añadir" : "Modificar"} {(this.state.acceder) ? "Integrante" : "Guardia"} <Button className="float-right mt-2" size="sm" variant="danger" onClick={() => { this.resetForm() }}>RESET</Button></h3>
-                        {(this.state.acceder) ? <GuardiaFormAcceder saveIntegrante={this.saveIntegrantes} onAdvertencia={this.advertencia} advertencia={this.state.dataForAcceder.advertencia} update={this.state.update} updateData={this.updateIntegrantes} onCansel={this.canselUpdate} />
-                            :
-                            <GuardiaForm saveData={this.saveData} update={this.state.update} updateData={this.updateData} onCansel={this.canselUpdate} />
-                        }
-                    </Alert>
-                </Col>
+                {(this.props.rol === "ROLE_PROFESOR" || this.props.rol === "ROLE_ESTUDIANTE") ? (this.state.acceder && this.props.rol !== "ROLE_ESTUDIANTE") ?
+                    <Col xs="3" className="border-right border-top">
+                        <Alert className="mt-2" variant="dark">
+                            <h3>{(!this.state.update) ? "Añadir" : "Modifi"} {(this.state.acceder) ? "Integrante" : "Guardia"} <Button className="float-right mt-2" size="sm" variant="danger" onClick={() => { this.resetForm() }}>RESET</Button></h3>
+                            {(this.state.acceder) ? <GuardiaFormAcceder saveIntegrante={this.saveIntegrantes} onAdvertencia={this.advertencia} advertencia={this.state.dataForAcceder.advertencia} update={this.state.update} updateData={this.updateIntegrantes} onCansel={this.canselUpdate} rol={this.props.rol} />
+                                :
+                                <GuardiaForm saveData={this.saveData} update={this.state.update} updateData={this.updateData} onCansel={this.canselUpdate} rol={this.props.rol} />
+                            }
+                        </Alert>
+                    </Col>
+                    : "" :
+                    <Col xs="3" className="border-right border-top">
+                        <Alert className="mt-2" variant="dark">
+                            <h3>{(!this.state.update) ? "Añadir" : "Modificar"} {(this.state.acceder) ? "Integrante" : "Guardia"} <Button className="float-right mt-2" size="sm" variant="danger" onClick={() => { this.resetForm() }}>RESET</Button></h3>
+                            {(this.state.acceder) ? <GuardiaFormAcceder saveIntegrante={this.saveIntegrantes} onAdvertencia={this.advertencia} advertencia={this.state.dataForAcceder.advertencia} update={this.state.update} updateData={this.updateIntegrantes} onCansel={this.canselUpdate} rol={this.props.rol} />
+                                :
+                                <GuardiaForm saveData={this.saveData} update={this.state.update} updateData={this.updateData} onCansel={this.canselUpdate} rol={this.props.rol} />
+                            }
+                        </Alert>
+                    </Col>
+                }
                 <Col className="border-top">
                     <InputGroup className="mb-3 mt-2">
                         {(!this.state.acceder) ?
@@ -233,13 +254,16 @@ export default class Guardia extends React.Component {
                         <InputGroup.Append>
                             <Button onClick={(e) => { if (!this.state.acceder) { e.target.parentElement.previousElementSibling.value = "" }; this.loadData() }}> {(this.state.acceder) ? "<--" : "X"}</Button>
                         </InputGroup.Append>
-                        <InputGroup.Append>
-                            <Button variant="danger" onClick={(e) => { (this.state.acceder) ? this.deleteIntegrantes([]) : this.deleteData([]) }}>Borrar</Button>
-                        </InputGroup.Append>
+                        {(this.props.rol === "ROLE_PROFESOR" || this.props.rol === "ROLE_ESTUDIANTE") ?
+                            "" :
+                            <InputGroup.Append>
+                                <Button variant="danger" onClick={(e) => { (this.state.acceder) ? this.deleteIntegrantes([]) : this.deleteData([]) }}>Borrar</Button>
+                            </InputGroup.Append>
+                        }
                     </InputGroup>
-                    {(this.state.acceder) ? <GuardiaTableAcceder datos={this.state.dataForAcceder} onDelete={this.deleteIntegrantes} onUpdate={this.getIntegrantesForUpdate} />
+                    {(this.state.acceder) ? <GuardiaTableAcceder datos={this.state.dataForAcceder} onDelete={this.deleteIntegrantes} onUpdate={this.getIntegrantesForUpdate} rol={this.props.rol} />
                         :
-                        <GuardiaTable datos={this.state.datos} onDelete={this.deleteData} onUpdate={this.getDataForUpdate} onAcceder={this.acceder} />
+                        <GuardiaTable datos={this.state.datos} onDelete={this.deleteData} onUpdate={this.getDataForUpdate} onAcceder={this.acceder} rol={this.props.rol} />
                     }
                 </Col>
             </>

@@ -36,6 +36,18 @@ public class GuardiaControls {
         return new ResponseEntity<>(servises.findGuardiaById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/represenate/{usreNameRepresenate}")
+    private ResponseEntity<List<Guardia>> findByUserNameRepresentante(
+            @PathVariable(name = "usreNameRepresenate") String userName) {
+        return new ResponseEntity<>(servises.allGuardiadByUserName(userName), HttpStatus.OK);
+    }
+
+    @GetMapping("/estudiante/{usreNameEstudiante}")
+    private ResponseEntity<List<Guardia>> findByUserNameEstudiante(
+            @PathVariable(name = "usreNameEstudiante") String userName) {
+        return new ResponseEntity<>(servises.allGuardiadByUserNameEstudiante(userName), HttpStatus.OK);
+    }
+
     @PutMapping()
     private ResponseEntity<Object> save(@RequestBody Guardia guardia) {
         servises.saveGuardia(guardia);

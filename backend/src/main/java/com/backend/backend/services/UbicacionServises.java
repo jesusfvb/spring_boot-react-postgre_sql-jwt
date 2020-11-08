@@ -11,6 +11,8 @@ public interface UbicacionServises {
 
     List<Ubicacion> allUbicacion();
 
+    List<Ubicacion> allUbicacionEstudiantes();
+
     List<Ubicacion> searchUbicacion(String text);
 
     Ubicacion findUbicacionById(Integer id);

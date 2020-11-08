@@ -75,4 +75,9 @@ public class CuarteleriaServicesImplementation implements CuarteleriaServises {
             repository.deleteAll(repository.findAllById(Arrays.asList(ids)));
         }
     }
+
+    @Override
+    public List<Cuarteleria> allCuarteleriaUserName(String userName) {
+        return repository.AllByUserName(userName);
+    }
 }

@@ -21,12 +21,12 @@ const UsersForms = ({ saveData, update = false, updateData, onCansel }) => {
 
             <Form.Group as={Col}>
                 <Form.Label>Contraseña</Form.Label>
-                <Form.Control name="fromInputs" type="password" placeholder="Escriba la Contraseña" isInvalid onChange={(e) => { Password(e.target) }} />
+                <Form.Control name="fromInputs" type="password" placeholder="Escriba la Contraseña" isInvalid onChange={(e) => { Password(e.target) }} autoComplete="off" />
             </Form.Group>
 
             <Form.Group as={Col}>
                 <Form.Label>Rol</Form.Label>
-                <Form.Control name="fromInputs" as="select" custom defaultValue="" isInvalid onChange={(e) => { Select(e.target) }}>
+                <Form.Control name="fromInputs" as="select" custom defaultValue="" isInvalid onChange={(e) => { e.preventDefault(); Select(e.target) }}>
                     <option defaultValue="0">Administrador</option>
                     <option defaultValue="1">DrRecidence</option>
                     <option defaultValue="2">VicDecExtencion</option>
@@ -36,7 +36,6 @@ const UsersForms = ({ saveData, update = false, updateData, onCansel }) => {
                     <option defaultValue="6"></option>
                 </Form.Control>
             </Form.Group>
-
             <Col className="text-right">
                 {(update) ? <Button className="ml-3" variant="danger" type="reset" onClick={(e) => { onCansel() }}> Cancelar </Button> : ""}
                 <Button className="ml-3" variant="success" type="submit"> Aceptar </Button>

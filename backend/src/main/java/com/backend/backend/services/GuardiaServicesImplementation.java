@@ -64,4 +64,14 @@ public class GuardiaServicesImplementation implements GuardiaServises {
     public void deleteGuardia(Integer[] ids) {
         repository.deleteAll(repository.findAllById(Arrays.asList(ids)));
     }
+
+    @Override
+    public List<Guardia> allGuardiadByUserName(String usrName) {
+        return repository.allForUserName(usrName);
+    }
+
+    @Override
+    public List<Guardia> allGuardiadByUserNameEstudiante(String usrName) {
+        return repository.allForUserNameEstudiante(usrName);
+    }
 }

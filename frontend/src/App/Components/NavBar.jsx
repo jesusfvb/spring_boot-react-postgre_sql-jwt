@@ -1,9 +1,9 @@
 import React from 'react'
-import { Col, Form, Nav, Navbar, Dropdown, SplitButton } from 'react-bootstrap'
+import { Col, Form, Nav, Navbar, ButtonGroup, Button } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
 import Notificacion from './Notificacion'
 import logo from '../helpers/Img/logo.png'
-const NavBar = () => {
+const NavBar = ({ Salir, userName, rol }) => {
     return (
         <Col className="p-0 mb-3">
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -14,22 +14,24 @@ const NavBar = () => {
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
                         <Nav.Link as={NavLink} to="/" exact>Home</Nav.Link>
-                        <Nav.Link as={NavLink} to="/cuarteleria" exact>Cuarteleria</Nav.Link>
-                        <Nav.Link as={NavLink} to="/guardia" exact>Guardia</Nav.Link>
-                        <Nav.Link as={NavLink} to="/ubicacion" exact>Ubicacion</Nav.Link>
-                        <Nav.Link as={NavLink} to="/usuarios" exact>Usuarios</Nav.Link>
+                        <Nav.Link as={NavLink} to="/cuarteleria" disabled={(rol === "ROLE_ADMINISTRADOR" || rol === "ROLE_VICDECEXTENCION" || rol === "ROLE_INTRUCTURA" || rol === "ROLE_ESTUDIANTE") ? false : true} exact>Cuarteleria</Nav.Link>
+                        <Nav.Link as={NavLink} to="/guardia" disabled={(rol === "ROLE_ADMINISTRADOR" || rol === "ROLE_VICDECEXTENCION" || rol === "ROLE_PROFESOR" || rol === "ROLE_ESTUDIANTE") ? false : true} exact>Guardia</Nav.Link>
+                        <Nav.Link as={NavLink} to="/ubicacion" disabled={(rol === "ROLE_ADMINISTRADOR" || rol === "ROLE_DRRECIDENCE" || rol === "ROLE_VICDECEXTENCION" || rol === "ROLE_ESTUDIANTE")
+                            ? false : true} exact>Ubicacion</Nav.Link>
+                        {(rol === "ROLE_ADMINISTRADOR") ? < Nav.Link as={NavLink} to="/usuarios" exact>Usuarios</Nav.Link> : ""}
                     </Nav>
                     <Form inline className="mr-2">
                         <Notificacion />
                     </Form>
                     <Nav>
-                        <SplitButton title="Usuario" alignRight variant="info">
-                            <Dropdown.Item eventKey="1">Serrar Secion</Dropdown.Item>
-                        </SplitButton>
+                        <ButtonGroup aria-label="Basic example">
+                            <Button variant="success">{userName}</Button>
+                            <Button variant="primary" onClick={() => { Salir() }}>Salir</Button>
+                        </ButtonGroup>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
-        </Col>
+        </Col >
     )
 }
 export default NavBar

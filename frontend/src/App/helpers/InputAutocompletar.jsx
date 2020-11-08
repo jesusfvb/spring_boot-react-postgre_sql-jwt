@@ -33,10 +33,12 @@ export default class InputAutocompletar extends React.Component {
     ponerDatos(i, comprovar = true) {
         if (Number.isInteger(Number.parseInt(i))) {
             let contenedor = document.getElementsByClassName(((this.props.ponerDatos === undefined) ? "inputAutocompletar" : this.props.ponerDatos))[0]
-            contenedor.id = this.state.datos[i].id
-            contenedor.value = this.acceso(this.state.datos[i])
-            if (comprovar) {
-                this.setState({ comprovar: false })
+            if (this.state.datos[i] !== undefined) {
+                contenedor.id = this.state.datos[i].id
+                contenedor.value = this.acceso(this.state.datos[i])
+                if (comprovar) {
+                    this.setState({ comprovar: false })
+                }
             }
         }
     }
@@ -61,7 +63,8 @@ export default class InputAutocompletar extends React.Component {
                 <Dropdown.Toggle isInvalid={this.props.isInvalid} placeholder={this.props.placeholder} name={this.props.name} className={((this.props.ponerDatos === undefined) ? "inputAutocompletar" : this.props.ponerDatos)}
                     as={Form.Control} onChange={(e) => { this.filtro(e.target.value); if (this.props.onChange !== undefined) { this.props.onChange(e) } }}
                     onBlurCapture={(e) => { this.comprovar(e.target.value); if (this.props.onChange !== undefined) { this.props.onChange(e) } }}
-                    onFocusCapture={(e) => { this.filtro(e.target.value) }} />
+                    onFocusCapture={(e) => { this.filtro(e.target.value) }} 
+                    disabled={this.props.disabled}/>
                 <Dropdown.Menu>
                     {this.state.datos.map((dato, i) => (
                         <Dropdown.Item key={i} eventKey={i} onSelect={(e) => { this.ponerDatos(e) }}>{this.acceso(dato)}</Dropdown.Item>
