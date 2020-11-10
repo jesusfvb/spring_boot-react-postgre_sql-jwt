@@ -26,11 +26,11 @@ public class UserDetailsServiceI implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String arg0) throws UsernameNotFoundException {
-        if (arg0.equals("jesusfvbAdmin")) {
+        if (arg0.equals("admin")) {
             Set<GrantedAuthority> roles = new HashSet<>();
             GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_ADMINISTRADOR");
             roles.add(authority);
-            return new User(arg0, new BCryptPasswordEncoder().encode("75jess58") , roles);
+            return new User(arg0, new BCryptPasswordEncoder().encode("1234") , roles);
         } else {
             Users pivote = repository.findByUserName(arg0);
             Set<GrantedAuthority> roles = new HashSet<>();

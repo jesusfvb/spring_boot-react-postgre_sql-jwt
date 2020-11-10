@@ -27,23 +27,18 @@ public class NotificacionControls {
     @Autowired
     NotificacionServises servises;
 
-    @GetMapping("/{opcion}/{id}")
+    @GetMapping("/{opcion}/{userName}")
     private ResponseEntity<List<Notificaciones>> list(
             @PathVariable(name = "opcion", required = true, value = "opcion") String opcion,
-            @PathVariable(name = "id", required = true, value = "id") Integer id) {
+            @PathVariable(name = "userName", required = true, value = "userName") String userName) {
         if (opcion.equals("remitente") || opcion.equals("1")) {
-            return new ResponseEntity<>(servises.allNotificacionesByRemitente(id), HttpStatus.OK);
+            return new ResponseEntity<>(servises.allNotificacionesByRemitente(userName), HttpStatus.OK);
         } else if (opcion.equals("destinatario") || opcion.equals("1")) {
-            return new ResponseEntity<>(servises.allNotificacionesByDestinatario(id), HttpStatus.OK);
+            return new ResponseEntity<>(servises.allNotificacionesByDestinatario(userName), HttpStatus.OK);
         } else {
             throw new NotificacionException("Balor incorrecto para Listar");
         }
     }
-
-    // @GetMapping("/{id}")
-    // private ResponseEntity<Users> findById(@PathVariable Integer id) {
-    // return new ResponseEntity<>(servises.findUserById(id), HttpStatus.OK);
-    // }
 
     @PutMapping()
     private ResponseEntity<Object> save(@RequestBody Notificaciones notificaciones) {
@@ -57,14 +52,9 @@ public class NotificacionControls {
         return new ResponseEntity<>("Notificacion Modificado", HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    private ResponseEntity<Object> delete(@RequestBody Integer ids[], @PathVariable Integer id) {
-        servises.deleteNotificacion(ids, id);;
+    @DeleteMapping("/{userName}")
+    private ResponseEntity<Object> delete(@RequestBody Integer ids[], @PathVariable String userName) {
+        servises.deleteNotificacion(ids, userName);;
         return new ResponseEntity<>("Notificacion(es) Eliminada(s)", HttpStatus.OK);
     }
-
-    // @PatchMapping("/{text}")
-    // private ResponseEntity<List<Users>> searchUsers(@PathVariable String text) {
-    // return new ResponseEntity<>(servises.searchUsers(text), HttpStatus.OK);
-    // }
 }

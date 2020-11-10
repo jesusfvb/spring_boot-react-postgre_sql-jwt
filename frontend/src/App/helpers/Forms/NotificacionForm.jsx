@@ -5,7 +5,7 @@ import InputAutocompletar from '../InputAutocompletar';
 
 const NotificacionForm = ({ saveData, update = false, updateData, onCansel }) => {
     return (
-        <Form className="mt-1" autoComplete="off" onSubmit={(e) => { e.preventDefault(); if (!update) { saveData(Array.from(e.target)) } else { updateData(Array.from(e.target)) } }}>
+        <Form id="notificacionForm" className="mt-1" autoComplete="off" onSubmit={(e) => { e.preventDefault(); if (!update) { saveData(Array.from(e.target)) } else { updateData(Array.from(e.target)) } }}>
             <Form.Group as={Col}>
                 <Form.Label>Nombre</Form.Label>
                 <InputAutocompletar ponerDatos="notificacionInput" url="/users" acceso="name" name="fromInputsN" placeholder="Escriba el Nombre" isInvalid onChange={(e) => { Name(e.target) }} />

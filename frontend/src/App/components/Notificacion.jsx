@@ -11,7 +11,7 @@ export default class Notificacion extends React.Component {
         this.state = {
             url: "/notificacion",
             opcion: "destinatario",
-            id: 86,
+            id: "",
             show: false,
             datos: [],
         }
@@ -25,7 +25,9 @@ export default class Notificacion extends React.Component {
         this.setState({ show: !this.state.show })
     }
     componentDidMount() {
-        this.loadData()
+        this.setState({ id: this.props.userName }, () => {
+            this.loadData()
+        })
     }
     loadData(resetForm = true, menssge = true, opcion = "destinatario") {
         GET(this.state.url + "/" + opcion + "/" + this.state.id).then(resul => { this.setState({ datos: resul, opcion: opcion }); if (resetForm) { this.resetForm() } }).catch(error => { console.error(error) })
@@ -48,7 +50,7 @@ export default class Notificacion extends React.Component {
     saveData(trarges = []) {
         if (Balidador(trarges)) {
             PUT(this.state.url, {
-                remitente: { id: this.state.id },
+                remitente: { userName: this.state.id },
                 destinatario: { id: trarges[0].id },
                 mensaje: trarges[1].value,
             }).then((mensaje) => { this.loadData(true, false); console.info(mensaje) }).catch(error => { console.error(error.message) })
@@ -57,12 +59,7 @@ export default class Notificacion extends React.Component {
         }
     }
     resetForm() {
-        let form = document.getElementsByTagName("form")
-        if (form.length > 1) {
-            form = form[1]
-        } else {
-            form = form[0]
-        }
+        let form = document.getElementById("notificacionForm")
         let fromInputs = Array.from(document.getElementsByName("fromInputsN"))
         if (fromInputs.length !== 0) {
             Balidar([fromInputs[0]], false);

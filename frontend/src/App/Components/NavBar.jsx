@@ -5,7 +5,7 @@ import Notificacion from './Notificacion'
 import logo from '../helpers/Img/logo.png'
 const NavBar = ({ Salir, userName, rol }) => {
     return (
-        <Col className="p-0 mb-3">
+        <Col className="p-0 mb-3" id="navbar00">
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Navbar.Brand as={NavLink} to="/" className="bg-light rounded-pill">
                     <img alt="" src={logo} width="150" height="30" className="d-inline-block align-top" />
@@ -21,7 +21,7 @@ const NavBar = ({ Salir, userName, rol }) => {
                         {(rol === "ROLE_ADMINISTRADOR") ? < Nav.Link as={NavLink} to="/usuarios" exact>Usuarios</Nav.Link> : ""}
                     </Nav>
                     <Form inline className="mr-2">
-                        <Notificacion />
+                        <Notificacion userName={userName}/>
                     </Form>
                     <Nav>
                         <ButtonGroup aria-label="Basic example">

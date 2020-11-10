@@ -9,6 +9,7 @@ import Ubicacion from './components/Ubicacion'
 import Cuarteleria from './components/Cuarteleria'
 import Guardia from './components/Guardia'
 import Loggin from './components/Loggin'
+import Error from './components/Error'
 class App extends React.Component {
    constructor(props) {
       super(props)
@@ -100,6 +101,7 @@ class App extends React.Component {
                         {(this.state.rol === "ROLE_ADMINISTRADOR" || this.state.rol === "ROLE_VICDECEXTENCION" || this.state.rol === "ROLE_PROFESOR" || this.state.rol === "ROLE_ESTUDIANTE") ?
                            < Route path="/guardia" exact render={() => <Guardia Error={this.Error} Success={this.Success} rol={this.state.rol} userName={this.state.username} />} />
                            : ""}
+                           <Route component={Error} />
                      </Switch>
                   </Row>
                   <Row>

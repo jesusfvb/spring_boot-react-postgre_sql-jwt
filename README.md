@@ -1,0 +1,19 @@
+# Aplicación realizada con Spring-Boot, React y PostgreSQL. Asegurada con JWT. Que simula a sierto rasgo la gestion de una recidencia.
+
+## Datos útiles para su despliegue
+
+* Conocer como ejecutar una aplicación de [React](https://github.com/facebook/create-react-app).
+Documentacion en los siguientes vinculos
+  1.  [Create React App](https://facebook.github.io/create-react-app/docs/deployment) 
+  2. [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  3. [React documentation](https://reactjs.org/).
+
+* Conocer como ejecutar una aplicación de Spring Boot. Puede consultar las siguentes documentaciones 
+
+    1. [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
+    2. [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.3.4.RELEASE/maven-plugin/reference/html/)
+
+    3. [Spring Web](https://docs.spring.io/spring-boot/docs/2.3.4.RELEASE/reference/htmlsingle/#boot-features-developing-web-applications)
+    
+    4. [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
+    5. [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
