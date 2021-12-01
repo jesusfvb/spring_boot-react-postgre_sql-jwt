@@ -1,4 +1,4 @@
-# Aplicación realizada con Spring-Boot, React y PostgreSQL. Asegurada con JWT. Que simula a sierto rasgo la gestion de una recidencia.
+# Aplicación realizada con Spring-Boot, React y PostgreSQL. Asegurada con JWT. Que simula a cierto rasgo la gestión de una residencia.
 
 ## Datos útiles para su despliegue
 
